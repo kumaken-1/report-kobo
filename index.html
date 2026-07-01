@@ -1,0 +1,1841 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <base target="_top">
+  <title>レポート工房</title>
+  <style>
+    :root {
+      --primary:       #4f46e5;
+      --primary-light: #eef2ff;
+      --primary-dark:  #3730a3;
+      --success:       #10b981;
+      --warning:       #f59e0b;
+      --danger:        #ef4444;
+      --danger-light:  #fef2f2;
+      --text:          #1e293b;
+      --text-muted:    #64748b;
+      --text-faint:    #94a3b8;
+      --bg:            #f1f5f9;
+      --surface:       #ffffff;
+      --border:        #e2e8f0;
+      --border-dark:   #cbd5e1;
+      --r-sm: 8px;
+      --r-md: 12px;
+      --r-lg: 20px;
+      --sh-sm: 0 1px 4px rgba(0,0,0,0.07);
+      --sh-md: 0 4px 16px rgba(0,0,0,0.09);
+      --sh-lg: 0 8px 28px rgba(0,0,0,0.12);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: "Hiragino Kaku Gothic ProN","Meiryo","Yu Gothic UI",sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      margin: 0;
+      padding: 20px 16px 64px;
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    .app {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    /* ── ヘッダー ── */
+    .app-header {
+      background: linear-gradient(135deg, #3730a3 0%, #4f46e5 60%, #6366f1 100%);
+      border-radius: var(--r-lg);
+      padding: 28px 32px 24px;
+      margin-bottom: 20px;
+      color: #fff;
+    }
+
+    .app-header h1 {
+      font-size: 30px;
+      font-weight: 800;
+      margin: 0 0 4px;
+      letter-spacing: -0.5px;
+      color: #fff;
+    }
+
+    .app-tagline {
+      font-size: 14px;
+      opacity: 0.78;
+      margin: 0;
+    }
+
+    /* ── ステッパー ── */
+    .stepper {
+      display: flex;
+      align-items: center;
+      background: var(--surface);
+      border-radius: var(--r-md);
+      padding: 16px 20px;
+      margin-bottom: 20px;
+      box-shadow: var(--sh-sm);
+      border: 1px solid var(--border);
+    }
+
+    .stepper-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      flex: 1;
+    }
+
+    .stepper-circle {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--border);
+      color: var(--text-muted);
+      font-size: 14px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .stepper-step.active .stepper-circle {
+      background: var(--primary);
+      color: #fff;
+      box-shadow: 0 0 0 4px var(--primary-light);
+    }
+
+    .stepper-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-align: center;
+      font-weight: 600;
+      line-height: 1.4;
+    }
+
+    .stepper-step.active .stepper-label {
+      color: var(--primary);
+    }
+
+    .stepper-line {
+      flex: 1;
+      height: 2px;
+      background: var(--border);
+      margin-bottom: 18px;
+    }
+
+    /* ── パネル ── */
+    .panel {
+      background: var(--surface);
+      border-radius: var(--r-md);
+      padding: 22px 24px;
+      margin-bottom: 16px;
+      box-shadow: var(--sh-sm);
+      border: 1px solid var(--border);
+    }
+
+    .panel-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 2px;
+    }
+
+    .panel-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+
+    .panel-hint {
+      font-size: 13px;
+      color: var(--text-muted);
+      background: var(--bg);
+      border-radius: var(--r-sm);
+      padding: 10px 14px;
+      margin: 10px 0;
+      line-height: 1.65;
+    }
+
+    /* ── セグメントコントロール（入力形式） ── */
+    .seg-ctrl {
+      display: inline-flex;
+      background: var(--bg);
+      border-radius: var(--r-sm);
+      padding: 3px;
+      gap: 2px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+
+    .seg-btn {
+      padding: 7px 16px;
+      border-radius: 6px;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+      font-family: inherit;
+    }
+
+    .seg-btn.active {
+      background: var(--surface);
+      color: var(--primary);
+      box-shadow: var(--sh-sm);
+    }
+
+    /* ── テキストエリア ── */
+    textarea {
+      width: 100%;
+      min-height: 180px;
+      font-size: 15px;
+      line-height: 1.7;
+      padding: 14px 16px;
+      border: 2px solid var(--border);
+      border-radius: var(--r-md);
+      resize: vertical;
+      color: var(--text);
+      background: var(--surface);
+      transition: border-color 0.15s, box-shadow 0.15s;
+      font-family: inherit;
+      margin-top: 12px;
+    }
+
+    textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px var(--primary-light);
+    }
+
+    /* ── ボタン ── */
+    button { font-family: inherit; cursor: pointer; }
+
+    .btn-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+      align-items: center;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 999px;
+      padding: 11px 22px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-family: inherit;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+      box-shadow: 0 2px 8px rgba(79,70,229,0.3);
+    }
+
+    .btn-primary:hover { background: var(--primary-dark); }
+
+    .btn-secondary {
+      background: var(--surface);
+      color: var(--text);
+      border: 2px solid var(--border-dark);
+    }
+
+    .btn-secondary:hover { background: var(--bg); }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--danger);
+      border: 2px solid transparent;
+      padding: 9px 16px;
+      border-radius: 999px;
+    }
+
+    .btn-ghost:hover {
+      background: var(--danger-light);
+      border-color: var(--danger);
+    }
+
+    /* 旧クラス互換 */
+    .buttons { display: flex; gap: 10px; flex-wrap: wrap; margin: 14px 0; }
+    .primary  { background: var(--primary); color: #fff; border: none;
+                border-radius: 999px; padding: 11px 22px; font-size: 14px; font-weight: 700; }
+    .secondary{ background: var(--surface); color: var(--text);
+                border: 2px solid var(--border-dark); border-radius: 999px;
+                padding: 11px 22px; font-size: 14px; font-weight: 700; }
+    .danger   { background: var(--danger-light); color: var(--danger);
+                border: 2px solid var(--danger); border-radius: 999px;
+                padding: 9px 16px; font-size: 14px; font-weight: 700; }
+
+    .point {
+      background: #fffbeb;
+      border-left: 4px solid #f59e0b;
+      padding: 12px 16px;
+      border-radius: var(--r-sm);
+      font-size: 13px;
+      line-height: 1.7;
+      color: #92400e;
+    }
+
+    /* ── シートタイトル ── */
+    .sheet-title {
+      font-size: 21px;
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 2px;
+    }
+
+    .note {
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+
+    /* ── タグセット切り替え ── */
+    .tagswitch-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin: 12px 0;
+    }
+
+    .tagset-switcher {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin: 10px 0 6px;
+    }
+
+    .tagset-btn {
+      padding: 6px 14px;
+      font-size: 13px;
+      border: 2px solid var(--border-dark);
+      border-radius: 999px;
+      background: var(--surface);
+      color: var(--text-muted);
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.15s;
+      font-family: inherit;
+    }
+
+    .tagset-btn.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+    }
+
+    .tagset-btn:not(.active):hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .tagswitch-btn {
+      position: relative;
+    }
+
+    .tagswitch-btn[data-tooltip]::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      bottom: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: #1e293b;
+      color: #fff;
+      font-size: 12px;
+      font-weight: normal;
+      line-height: 1.6;
+      white-space: normal;
+      width: 220px;
+      padding: 8px 12px;
+      border-radius: 8px;
+      box-shadow: var(--sh-md);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.15s;
+      z-index: 100;
+    }
+
+    .tagswitch-btn[data-tooltip]:hover::after { opacity: 1; }
+
+    /* ── カードエリア ── */
+    .card-area {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      margin-top: 12px;
+    }
+
+    .card {
+      background: #fffef0;
+      border: 1px solid #ede8c0;
+      border-left: 5px solid var(--border-dark);
+      border-radius: var(--r-md);
+      padding: 14px 14px 10px;
+      box-shadow: var(--sh-sm);
+      cursor: grab;
+      transition: box-shadow 0.15s, transform 0.1s;
+      margin-bottom: 4px;
+    }
+
+    .card:hover { box-shadow: var(--sh-md); }
+    .card.dragging { opacity: 0.3; transform: scale(0.98); }
+
+    .card.card-c1 { border-left-color: #f59e0b; background: #fffdf5; }
+    .card.card-c2 { border-left-color: #10b981; background: #f5fdf8; }
+    .card.card-c3 { border-left-color: #6366f1; background: #f8f7ff; }
+
+    .card-top {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .card-num {
+      font-size: 11px;
+      color: var(--text-faint);
+      font-weight: 700;
+      min-width: 18px;
+      text-align: center;
+      padding-top: 4px;
+      flex-shrink: 0;
+    }
+
+    .card-text {
+      flex: 1;
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--text);
+      border-radius: 6px;
+      padding: 2px 6px;
+      min-height: 2em;
+      white-space: pre-wrap;
+      word-break: break-all;
+      cursor: text;
+    }
+
+    .card-text:hover {
+      background: var(--bg);
+      outline: 1px dashed var(--border-dark);
+    }
+
+    .card-text:focus {
+      background: #fafcff;
+      outline: 2px solid var(--primary);
+    }
+
+    .card-del-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 3px 6px;
+      border-radius: 6px;
+      color: var(--text-faint);
+      font-size: 18px;
+      transition: all 0.15s;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+
+    .card-del-btn:hover {
+      color: var(--danger);
+      background: var(--danger-light);
+    }
+
+    .card-bottom {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 10px;
+      padding-top: 8px;
+      border-top: 1px solid var(--border);
+    }
+
+    .card .card-tag {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .tag-select {
+      font-size: 12px;
+      padding: 4px 8px;
+      border: 1px solid var(--border-dark);
+      border-radius: 999px;
+      background: var(--surface);
+      color: var(--text);
+      font-family: inherit;
+      cursor: pointer;
+      max-width: 200px;
+    }
+
+    .tag-free {
+      font-size: 12px;
+      padding: 4px 8px;
+      border: 1px solid var(--border-dark);
+      border-radius: 999px;
+      background: var(--surface);
+      max-width: 200px;
+      font-family: inherit;
+    }
+
+    .card-move {
+      display: flex;
+      gap: 4px;
+      flex-shrink: 0;
+    }
+
+    .card-move-btn {
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      background: var(--bg);
+      border: 1px solid var(--border-dark);
+      color: var(--text-muted);
+      font-size: 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: inherit;
+      transition: all 0.15s;
+    }
+
+    .card-move-btn:hover:not(:disabled) {
+      background: var(--primary-light);
+      color: var(--primary);
+      border-color: var(--primary);
+    }
+
+    .card-move-btn:disabled { opacity: 0.3; cursor: default; }
+
+    /* ── コネクター ── */
+    .connector-slot {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 0;
+      margin: 0 24px;
+    }
+
+    .connector-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .connector-add {
+      background: var(--surface);
+      border: 1px dashed var(--border-dark);
+      border-radius: 999px;
+      padding: 4px 16px;
+      font-size: 12px;
+      color: var(--text-muted);
+      cursor: pointer;
+      white-space: nowrap;
+      font-family: inherit;
+      transition: all 0.15s;
+    }
+
+    .connector-add:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+      background: var(--primary-light);
+    }
+
+    .connector-chip {
+      background: var(--primary-light);
+      border: 1px solid var(--primary);
+      border-radius: 999px;
+      padding: 4px 14px;
+      font-size: 13px;
+      color: var(--primary);
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .connector-clear {
+      background: none;
+      border: none;
+      color: var(--text-faint);
+      font-size: 16px;
+      cursor: pointer;
+      padding: 0 4px;
+      font-family: inherit;
+    }
+
+    .connector-clear:hover { color: var(--danger); }
+
+    .connector-palette {
+      width: 100%;
+      max-width: 440px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r-md);
+      padding: 16px;
+      box-shadow: var(--sh-lg);
+      margin: 0 auto;
+    }
+
+    .connector-palette-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 700;
+      margin-bottom: 12px;
+      font-size: 14px;
+      color: var(--text);
+    }
+
+    .connector-close {
+      border: none;
+      background: none;
+      font-size: 20px;
+      cursor: pointer;
+      color: var(--text-muted);
+      font-family: inherit;
+    }
+
+    .connector-group { margin-bottom: 10px; }
+
+    .connector-group-label {
+      font-size: 11px;
+      color: var(--text-faint);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+
+    .connector-words { display: flex; flex-wrap: wrap; gap: 6px; }
+
+    .connector-word {
+      background: var(--bg);
+      border: 1px solid var(--border-dark);
+      border-radius: 999px;
+      padding: 5px 14px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.15s;
+      font-family: inherit;
+    }
+
+    .connector-word:hover {
+      background: var(--primary-light);
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .connector-free { display: flex; gap: 6px; margin-top: 10px; }
+
+    .connector-free input {
+      flex: 1;
+      padding: 7px 12px;
+      border: 1px solid var(--border-dark);
+      border-radius: var(--r-sm);
+      font-size: 13px;
+      font-family: inherit;
+    }
+
+    .connector-free button {
+      padding: 7px 14px;
+      font-size: 13px;
+      border-radius: var(--r-sm);
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+      font-weight: 700;
+    }
+
+    /* ── サマリー ── */
+    .summary-text {
+      white-space: pre-wrap;
+      font-size: 16px;
+      line-height: 2;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--r-md);
+      padding: 20px;
+      min-height: 80px;
+      color: var(--text);
+    }
+
+    /* ── カード追加ボタン ── */
+    .add-card-btn {
+      width: 100%;
+      padding: 12px;
+      border: 2px dashed var(--border-dark);
+      border-radius: var(--r-md);
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+      font-family: inherit;
+      margin-top: 4px;
+    }
+
+    .add-card-btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+      background: var(--primary-light);
+    }
+
+    /* ── 削除ボタン（グローバル） ── */
+    .btn-trash {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 9px 18px;
+      background: transparent;
+      border: 2px solid transparent;
+      border-radius: 999px;
+      color: var(--danger);
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s;
+      font-family: inherit;
+    }
+
+    .btn-trash:hover {
+      background: var(--danger-light);
+      border-color: var(--danger);
+    }
+
+    /* ── トースト通知 ── */
+    #toast {
+      position: fixed;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: #1e293b;
+      color: #fff;
+      padding: 12px 28px;
+      border-radius: 999px;
+      font-size: 15px;
+      font-weight: 600;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s, transform 0.25s;
+      z-index: 9999;
+      white-space: nowrap;
+    }
+    #toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* ── エラーメッセージ ── */
+    .error-msg {
+      display: none;
+      color: var(--danger);
+      background: var(--danger-light);
+      border: 1px solid var(--danger);
+      border-radius: var(--r-sm);
+      padding: 10px 14px;
+      font-size: 14px;
+      font-weight: 600;
+      margin-top: 8px;
+    }
+
+    /* ── タグセット説明 ── */
+    .tagset-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      background: var(--primary-light);
+      border-left: 3px solid var(--primary);
+      border-radius: 0 var(--r-sm) var(--r-sm) 0;
+      padding: 8px 12px;
+      margin-top: 8px;
+      line-height: 1.6;
+    }
+
+    /* ── まとめるカードボタン ── */
+    .summarize-options {
+      display: flex;
+      gap: 12px;
+      margin-top: 8px;
+    }
+    .summarize-card {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding: 14px 16px;
+      border-radius: var(--r-md);
+      border: 2px solid var(--border);
+      background: var(--surface);
+      cursor: pointer;
+      text-align: left;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .summarize-card:hover {
+      border-color: var(--primary);
+      background: var(--primary-light);
+    }
+    .summarize-card .sc-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .summarize-card .sc-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* ── ステッパー現在地 ── */
+    .stepper-step.active .stepper-circle {
+      background: var(--primary);
+      color: #fff;
+      box-shadow: 0 0 0 4px var(--primary-light);
+    }
+    .stepper-step.done .stepper-circle {
+      background: var(--success);
+      color: #fff;
+    }
+    .stepper-step.active .stepper-label {
+      color: var(--primary);
+      font-weight: 700;
+    }
+    .stepper-step.done .stepper-label {
+      color: var(--success);
+    }
+
+    /* ── 印刷 ── */
+    @media print {
+      body { background: #fff; padding: 0; }
+      .app-header, .stepper, .input-area, .btn-row, .buttons { display: none; }
+      .card-del-btn, .card-move, .connector-add, .connector-clear { display: none; }
+      .panel { box-shadow: none; border: 1px solid #ccc; break-inside: avoid; }
+      .card { box-shadow: none; cursor: default; break-inside: avoid; }
+    }
+
+    h1 { margin-top: 0; }
+
+    .lead {
+      font-size: 16px;
+      line-height: 1.7;
+      background: #eef6ff;
+      border-left: 6px solid #3c78d8;
+      padding: 12px 16px;
+      border-radius: 8px;
+    }
+
+
+    textarea {
+      width: 100%;
+      min-height: 260px;
+      font-size: 16px;
+      line-height: 1.6;
+      padding: 12px;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      resize: vertical;
+      margin-top: 16px;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin: 16px 0;
+    }
+
+    button {
+      border: none;
+      border-radius: 999px;
+      padding: 12px 20px;
+      font-size: 15px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .primary {
+      background: #3c78d8;
+      color: #fff;
+    }
+
+    .secondary {
+      background: #e6e6e6;
+      color: #222;
+    }
+
+    .tagset-switcher {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin: 10px 0 6px;
+    }
+
+    .tagset-btn {
+      padding: 5px 12px;
+      font-size: 0.85rem;
+      border: 2px solid #bbb;
+      border-radius: 20px;
+      background: #f5f5f5;
+      color: #444;
+      cursor: pointer;
+    }
+
+    .tagset-btn.active {
+      background: #4a90d9;
+      border-color: #4a90d9;
+      color: #fff;
+      font-weight: bold;
+    }
+
+    .tagswitch-btn {
+      position: relative;
+    }
+
+    .tagswitch-btn[data-tooltip]::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      bottom: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: #1a3a5c;
+      color: #fff;
+      font-size: 12px;
+      font-weight: normal;
+      line-height: 1.6;
+      white-space: normal;
+      width: 220px;
+      padding: 8px 12px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.15s;
+      z-index: 100;
+    }
+
+    .tagswitch-btn[data-tooltip]:hover::after {
+      opacity: 1;
+    }
+
+
+    .connector-group {
+      margin-bottom: 8px;
+    }
+
+    .connector-group-label {
+      font-size: 11px;
+      color: #888;
+      margin-bottom: 4px;
+    }
+
+    .connector-words {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .connector-word {
+      background: #f1f3f4;
+      border: 1px solid #ccc;
+      border-radius: 999px;
+      padding: 4px 12px;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    .connector-free {
+      display: flex;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .connector-free input {
+      flex: 1;
+      padding: 4px 8px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 13px;
+    }
+
+    .connector-free button {
+      padding: 4px 10px;
+      font-size: 12px;
+      border-radius: 6px;
+      background: #3c78d8;
+      color: #fff;
+      border: none;
+    }
+
+    .card .card-controls button {
+      width: 32px;
+      padding: 4px 0;
+      font-size: 13px;
+      border-radius: 6px;
+      background: #e6e6e6;
+      color: #222;
+    }
+
+    @media print {
+      .card .card-controls,
+      .card-delete,
+      .connector-add,
+      .connector-clear {
+        display: none;
+      }
+
+      .card {
+        cursor: default;
+        box-shadow: none;
+        break-inside: avoid;
+      }
+    }
+
+    @media print {
+      body {
+        background: #fff;
+        padding: 0;
+      }
+
+      .app {
+        box-shadow: none;
+        border-radius: 0;
+      }
+
+      textarea,
+      .buttons,
+      .lead,
+      .input-area {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="toast"></div>
+  <div class="app">
+
+    <div class="app-header">
+      <h1>レポート工房</h1>
+      <p class="app-tagline">メモをカードに分けて、ならべかえて、文章にまとめよう</p>
+    </div>
+
+    <div class="stepper">
+      <div class="stepper-step active">
+        <div class="stepper-circle">1</div>
+        <div class="stepper-label">メモをはりつける</div>
+      </div>
+      <div class="stepper-line"></div>
+      <div class="stepper-step">
+        <div class="stepper-circle">2</div>
+        <div class="stepper-label">カードをならべかえる</div>
+      </div>
+      <div class="stepper-line"></div>
+      <div class="stepper-step">
+        <div class="stepper-circle">3</div>
+        <div class="stepper-label">文章を直す</div>
+      </div>
+      <div class="stepper-line"></div>
+      <div class="stepper-step">
+        <div class="stepper-circle">4</div>
+        <div class="stepper-label">まとめてコピー</div>
+      </div>
+    </div>
+
+    <div class="panel input-area">
+      <div class="panel-label">Step 1</div>
+      <div class="panel-title">メモをはりつけよう</div>
+      <div class="panel-hint">自分のメモのかき方に合わせて形式をえらんでね。</div>
+
+      <div class="seg-ctrl">
+        <button class="seg-btn active" onclick="switchInputMode('mandala')">マンダラメモ</button>
+        <button class="seg-btn" onclick="switchInputMode('bullet')">箇条書き（・）</button>
+        <button class="seg-btn" onclick="switchInputMode('paragraph')">段落（空行区切り）</button>
+      </div>
+
+      <div id="inputHint" class="panel-hint">
+        番号付き行（1. 2. …）が1枚のカードになります。「・」の行は同じカードにまとめられます。
+      </div>
+
+      <textarea id="memoInput" placeholder="ここにメモを貼り付けます。"></textarea>
+      <div id="memoError" class="error-msg">メモをはりつけてください。</div>
+
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="convertMemo()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14l-5-5 1.41-1.41L12 14.17l7.59-7.59L21 8l-9 9z"/></svg>
+          カードに分ける
+        </button>
+        <button class="btn-trash" onclick="clearAll()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+          全部消す
+        </button>
+      </div>
+    </div>
+
+    <div id="output"></div>
+  </div>
+
+  <script>
+    const TAG_SETS = [
+      {
+        label: "マンダラ系",
+        tooltip: "マンダラノートと組み合わせて使います。体験・気づき・疑問など、思考の種類でカードを分けられます。",
+        tags: ["見たこと・聞いたこと", "調べて分かったこと", "気になったこと・疑問", "考えたこと・気づき", "うまくいったこと・困ったこと", "困っていること・助けてほしいこと", "みんなに伝えたいこと"]
+      },
+      {
+        label: "問い→調査型",
+        tooltip: "「なぜ？」という問いから始めて、調べ方・結果・考察・まとめの順に段落を作る文章に向いています。",
+        tags: ["問い", "調べ方", "分かったこと", "考察", "まとめ"]
+      },
+      {
+        label: "課題→提案型",
+        tooltip: "現状の問題を明らかにして、提案・解決策につなげる文章に向いています。",
+        tags: ["現状と課題", "調べたこと", "提案", "これから"]
+      },
+      {
+        label: "制作・実践型",
+        tooltip: "作ったり、やってみたりしたことを報告する文章に向いています。目標→計画→実践→振り返りの流れで整理できます。",
+        tags: ["目標", "計画", "やったこと", "うまくいったこと", "改善点", "振り返り"]
+      },
+      {
+        label: "段落番号型",
+        tooltip: "「初め・中・終わり」のシンプルな構成で段落を作ります。内容を自由に決めたいときに使いましょう。",
+        tags: ["初め", "中①", "中②", "中③", "終わり"]
+      },
+      {
+        label: "汎用",
+        tooltip: "どんな文章にも使える基本のタグです。意見文・説明文・感想文など、教科を問わず使えます。",
+        tags: ["書き出し", "理由・根拠", "具体的な例", "調べて分かったこと", "考えたこと・意見", "まとめ・結論"]
+      }
+    ];
+
+    let currentTagSetIndex = 0;
+    let inputMode = "mandala";
+
+    const INPUT_HINTS = {
+      mandala: "番号付き行（1. 2. …）が1枚のカードになります。「・」の行は同じカードにまとめられます。",
+      bullet:  "「・」「-」「*」で始まる行が1枚のカードになります。最初の行はタイトルとして使われます。",
+      paragraph: "空行で区切られたひとかたまりが1枚のカードになります。"
+    };
+
+    function switchInputMode(mode) {
+      inputMode = mode;
+      document.querySelectorAll(".seg-btn").forEach(btn => {
+        btn.classList.toggle("active", btn.getAttribute("onclick").includes("'" + mode + "'"));
+      });
+      document.getElementById("inputHint").innerText = INPUT_HINTS[mode];
+    }
+
+    function convertMemo() {
+      const text = document.getElementById('memoInput').value;
+      if (!text.trim()) { showError("memoError", "メモをはりつけてください。"); return; }
+      let parsed;
+      if (inputMode === "bullet")         parsed = parseBulletList(text);
+      else if (inputMode === "paragraph") parsed = parseParagraphText(text);
+      else                                parsed = parseMandalaMemo(text);
+      renderSheet(parsed);
+      setStep(2);
+    }
+
+    function parseBulletList(text) {
+      const lines = text.split(/\r?\n/).map(l => l.trim());
+      let title = "";
+      const blocks = [];
+      lines.forEach(line => {
+        if (!line) return;
+        if (/^[・\-\*•]/.test(line)) {
+          blocks.push({ heading: line.replace(/^[・\-\*•]\s*/, ""), details: [] });
+        } else if (!title && blocks.length === 0) {
+          title = line;
+        } else if (blocks.length > 0) {
+          blocks[blocks.length - 1].heading += "　" + line;
+        }
+      });
+      return { title, blocks };
+    }
+
+    function parseParagraphText(text) {
+      const chunks = text.split(/\r?\n\s*\r?\n/).map(c => c.trim()).filter(c => c);
+      const title = "";
+      const blocks = chunks.map(chunk => ({
+        heading: chunk.replace(/\r?\n/g, "　"),
+        details: []
+      }));
+      return { title, blocks };
+    }
+
+    function parseMandalaMemo(text) {
+      const lines = text
+        .split(/\r?\n/)
+        .map(line => line.trim())
+        .filter(line => line !== "");
+
+      let title = "";
+      const blocks = [];
+      let currentBlock = null;
+      let lastDetailIndex = -1;
+
+      lines.forEach(line => {
+        if (!title && !isNumberedLine(line) && !isBulletLine(line)) {
+          title = line;
+          return;
+        }
+
+        if (isNumberedLine(line)) {
+          if (currentBlock) blocks.push(currentBlock);
+
+          currentBlock = {
+            heading: removeNumberPrefix(line),
+            details: []
+          };
+          lastDetailIndex = -1;
+          return;
+        }
+
+        if (!currentBlock) {
+          currentBlock = {
+            heading: "その他",
+            details: []
+          };
+        }
+
+        if (isBulletLine(line)) {
+          currentBlock.details.push(removeBulletPrefix(line));
+          lastDetailIndex = currentBlock.details.length - 1;
+          return;
+        }
+
+        // 「・」の続きの行は、直前の詳しい材料に続ける
+        if (lastDetailIndex >= 0) {
+          currentBlock.details[lastDetailIndex] += " " + line;
+        } else {
+          currentBlock.heading += " " + line;
+        }
+      });
+
+      if (currentBlock) blocks.push(currentBlock);
+
+      return { title, blocks };
+    }
+
+    function isNumberedLine(line) {
+      return /^\d+[\.．、]/.test(line);
+    }
+
+    function removeNumberPrefix(line) {
+      return line.replace(/^\d+[\.．、]\s*/, "");
+    }
+
+    function isBulletLine(line) {
+      return /^[・･\-－]/.test(line);
+    }
+
+    function removeBulletPrefix(line) {
+      return line.replace(/^[・･\-－]\s*/, "");
+    }
+
+    function splitByEqual(text) {
+      const parts = text.split(/[=＝]/);
+
+      if (parts.length < 2) {
+        return {
+          left: "",
+          right: ""
+        };
+      }
+
+      return {
+        left: parts[0].trim(),
+        right: parts.slice(1).join("＝").trim()
+      };
+    }
+
+    function makeRows(blocks) {
+      const rows = [];
+
+      blocks.forEach(block => {
+        if (block.details.length === 0) {
+          rows.push({
+            material: block.heading,
+            memo: ""
+          });
+        } else {
+          block.details.forEach(detail => {
+            const split = splitByEqual(detail);
+
+            if (split.left || split.right) {
+              rows.push({
+                material: split.left || block.heading,
+                memo: split.right || detail
+              });
+            } else {
+              rows.push({
+                material: block.heading,
+                memo: detail
+              });
+            }
+          });
+        }
+      });
+
+      return rows;
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    const CONNECTOR_GROUPS = [
+      { label: "順番", words: ["はじめに", "まず", "つぎに", "さいごに"] },
+      { label: "考えを並べる", words: ["第一に", "第二に", "第三に"] },
+      { label: "つけたす", words: ["また", "さらに"] },
+      { label: "わけ", words: ["そのわけは", "なぜなら", "だから"] },
+      { label: "たとえ", words: ["たとえば", "この場合"] },
+      { label: "まとめ", words: ["つまり", "このように"] },
+      { label: "くらべる", words: ["しかし", "一方で"] }
+    ];
+
+    let currentRows = [];
+    let currentTags = [];
+    let currentTagCustom = [];
+    let currentConnectors = [];
+    let openConnectorIndex = null;
+    let tagColorMap = {};
+    let nextColorIndex = 0;
+
+    function getTagColorClass(tag) {
+      if (!tag) return "";
+      if (tagColorMap[tag] === undefined) {
+        nextColorIndex = (nextColorIndex % 3) + 1;
+        tagColorMap[tag] = nextColorIndex;
+      }
+      return "card-c" + tagColorMap[tag];
+    }
+
+    function getActiveTags() {
+      return TAG_SETS[currentTagSetIndex].tags;
+    }
+
+    /* ── ステッパー現在地 ── */
+    function setStep(n) {
+      document.querySelectorAll(".stepper-step").forEach((el, i) => {
+        el.classList.remove("active", "done");
+        if (i + 1 < n)  el.classList.add("done");
+        if (i + 1 === n) el.classList.add("active");
+      });
+    }
+
+    /* ── トースト ── */
+    let _toastTimer = null;
+    function showToast(msg) {
+      const t = document.getElementById("toast");
+      t.textContent = msg;
+      t.classList.add("show");
+      clearTimeout(_toastTimer);
+      _toastTimer = setTimeout(() => t.classList.remove("show"), 2200);
+    }
+
+    /* ── インラインエラー ── */
+    function showError(id, msg) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.textContent = msg;
+      el.style.display = "block";
+      setTimeout(() => { el.style.display = "none"; }, 3500);
+    }
+
+    function switchTagSet(index) {
+      currentTagSetIndex = index;
+      document.querySelectorAll(".tagswitch-btn").forEach((btn, i) => {
+        btn.classList.toggle("active", i === index);
+      });
+      const desc = document.getElementById("tagSetDesc");
+      if (desc) desc.textContent = TAG_SETS[index].tooltip;
+      renderCards();
+    }
+
+    function buildTagCellHtml(i) {
+      const value = currentTags[i] || "";
+      const isCustom = currentTagCustom[i] === true;
+
+      const options = getActiveTags().map(t =>
+        `<option value="${escapeHtml(t)}" ${!isCustom && t === value ? "selected" : ""}>${escapeHtml(t)}</option>`
+      ).join("");
+
+      return `
+        <div class="card-tag" data-index="${i}">
+          <select class="tag-select" onchange="onTagSelectChange(${i}, this.value)">
+            <option value="" ${!isCustom && value === "" ? "selected" : ""}>（タグを選ぶ）</option>
+            ${options}
+            <option value="__custom__" ${isCustom ? "selected" : ""}>その他（自分で書く）</option>
+          </select>
+          <input type="text" class="tag-free" id="tagFree${i}" placeholder="タグを書く"
+            value="${isCustom ? escapeHtml(value) : ""}"
+            style="display:${isCustom ? "block" : "none"}"
+            oninput="onTagFreeChange(${i}, this.value)">
+        </div>
+      `;
+    }
+
+    function onTagSelectChange(i, val) {
+      if (val === "__custom__") {
+        currentTagCustom[i] = true;
+        currentTags[i] = "";
+        const freeEl = document.getElementById("tagFree" + i);
+        if (freeEl) { freeEl.style.display = "block"; freeEl.value = ""; freeEl.focus(); }
+      } else {
+        currentTagCustom[i] = false;
+        currentTags[i] = val;
+        const freeEl = document.getElementById("tagFree" + i);
+        if (freeEl) freeEl.style.display = "none";
+        renderCards();
+      }
+    }
+
+    function onTagFreeChange(i, val) {
+      currentTags[i] = val.trim();
+      renderCards();
+    }
+
+    function deleteCard(i) {
+      if (!confirm("この短冊を削除しますか？")) return;
+      currentRows.splice(i, 1);
+      currentTags.splice(i, 1);
+      currentTagCustom.splice(i, 1);
+      currentConnectors = new Array(Math.max(currentRows.length - 1, 0)).fill(null);
+      openConnectorIndex = null;
+      renderCards();
+    }
+
+    function addCardTop() {
+      currentRows.unshift({ material: "（材料を書く）", memo: "" });
+      currentTags.unshift("");
+      currentTagCustom.unshift(false);
+      currentConnectors = new Array(Math.max(currentRows.length - 1, 0)).fill(null);
+      openConnectorIndex = null;
+      renderCards();
+      setTimeout(() => {
+        const first = document.querySelector(".card-material");
+        if (first) { first.focus(); document.execCommand("selectAll"); }
+      }, 0);
+    }
+
+    function onTextChange(i, text) {
+      currentRows[i].material = text;
+      currentRows[i].memo = "";
+    }
+
+    function buildCardsHtml() {
+      let html = "";
+
+      currentRows.forEach((row, i) => {
+        const fullText = row.material + (row.memo ? "　" + row.memo : "");
+        row.material = fullText;
+        row.memo = "";
+
+        const colorClass = getTagColorClass(currentTags[i]);
+        html += `
+          <div class="card ${colorClass}" draggable="true"
+            data-index="${i}"
+            ondragstart="handleDragStart(event, ${i})"
+            ondragend="handleDragEnd(event)"
+            ondragover="event.preventDefault()"
+            ondrop="handleDrop(event, ${i})">
+            <div class="card-top">
+              <span class="card-num">${i + 1}</span>
+              <div class="card-text" contenteditable="true"
+                ondragstart="event.stopPropagation()"
+                oninput="onTextChange(${i}, this.innerText)">${escapeHtml(fullText)}</div>
+              <button class="card-del-btn" onclick="deleteCard(${i})" title="削除">🗑</button>
+            </div>
+            <div class="card-bottom">
+              ${buildTagCellHtml(i)}
+              <div class="card-move">
+                <button class="card-move-btn" onclick="moveCard(${i}, -1)" ${i === 0 ? "disabled" : ""}>▲</button>
+                <button class="card-move-btn" onclick="moveCard(${i}, 1)" ${i === currentRows.length - 1 ? "disabled" : ""}>▼</button>
+              </div>
+            </div>
+          </div>
+        `;
+
+        if (i < currentRows.length - 1) {
+          html += buildConnectorSlotHtml(i);
+        }
+      });
+
+      return html;
+    }
+
+    function buildConnectorSlotHtml(i) {
+      if (openConnectorIndex === i) {
+        return buildConnectorPaletteHtml(i);
+      }
+
+      const value = currentConnectors[i];
+
+      if (value) {
+        return `
+          <div class="connector-slot">
+            <span class="connector-chip" onclick="openConnectorPicker(${i})">${escapeHtml(value)}</span>
+            <button class="connector-clear" onclick="clearConnector(event, ${i})">×</button>
+          </div>
+        `;
+      }
+
+      return `
+        <div class="connector-slot">
+          <div class="connector-line"></div>
+          <button class="connector-add" onclick="openConnectorPicker(${i})">＋ つなぎ言葉</button>
+          <div class="connector-line"></div>
+        </div>
+      `;
+    }
+
+    function buildConnectorPaletteHtml(i) {
+      const groups = CONNECTOR_GROUPS.map(g => `
+        <div class="connector-group">
+          <div class="connector-group-label">${escapeHtml(g.label)}</div>
+          <div class="connector-words">
+            ${g.words.map(w => `<button class="connector-word" onclick="setConnector(${i}, '${w}')">${escapeHtml(w)}</button>`).join("")}
+          </div>
+        </div>
+      `).join("");
+
+      return `
+        <div class="connector-slot">
+          <div class="connector-palette">
+            <div class="connector-palette-header">
+              <span>つなぎ言葉</span>
+              <button class="connector-close" onclick="closeConnectorPicker()">×</button>
+            </div>
+            ${groups}
+            <div class="connector-free">
+              <input type="text" id="connectorFree${i}" placeholder="自分で書く">
+              <button onclick="setConnectorFromInput(${i})">決定</button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function openConnectorPicker(i) {
+      openConnectorIndex = i;
+      renderCards();
+    }
+
+    function closeConnectorPicker() {
+      openConnectorIndex = null;
+      renderCards();
+    }
+
+    function setConnector(i, word) {
+      currentConnectors[i] = word;
+      openConnectorIndex = null;
+      renderCards();
+    }
+
+    function setConnectorFromInput(i) {
+      const input = document.getElementById("connectorFree" + i);
+      const val = input.value.trim();
+      if (val) currentConnectors[i] = val;
+      openConnectorIndex = null;
+      renderCards();
+    }
+
+    function clearConnector(e, i) {
+      e.stopPropagation();
+      currentConnectors[i] = null;
+      renderCards();
+    }
+
+    function renderCards() {
+      document.getElementById("cardArea").innerHTML = buildCardsHtml();
+    }
+
+    function swapIndex(arr, a, b) {
+      const tmp = arr[a]; arr[a] = arr[b]; arr[b] = tmp;
+    }
+
+    function moveCard(index, direction) {
+      const target = index + direction;
+      if (target < 0 || target >= currentRows.length) return;
+      swapIndex(currentRows, index, target);
+      swapIndex(currentTags, index, target);
+      swapIndex(currentTagCustom, index, target);
+      currentConnectors = new Array(currentRows.length - 1).fill(null);
+      openConnectorIndex = null;
+      renderCards();
+    }
+
+    let dragSourceIndex = null;
+
+    function handleDragStart(e, index) {
+      dragSourceIndex = index;
+      e.currentTarget.classList.add("dragging");
+      e.dataTransfer.setData("text/plain", String(index));
+    }
+
+    function handleDragEnd(e) {
+      e.currentTarget.classList.remove("dragging");
+    }
+
+    function handleDrop(e, dropIndex) {
+      e.preventDefault();
+      const source = dragSourceIndex !== null ? dragSourceIndex : Number(e.dataTransfer.getData("text/plain"));
+      if (source === dropIndex || isNaN(source)) return;
+      const moved = currentRows.splice(source, 1)[0];
+      currentRows.splice(dropIndex, 0, moved);
+      const movedTag = currentTags.splice(source, 1)[0];
+      currentTags.splice(dropIndex, 0, movedTag);
+      const movedCustom = currentTagCustom.splice(source, 1)[0];
+      currentTagCustom.splice(dropIndex, 0, movedCustom);
+      currentConnectors = new Array(currentRows.length - 1).fill(null);
+      openConnectorIndex = null;
+      dragSourceIndex = null;
+      renderCards();
+    }
+
+    function renderSheet(parsed) {
+      currentRows = makeRows(parsed.blocks);
+      currentTags = new Array(currentRows.length).fill("");
+      currentTagCustom = new Array(currentRows.length).fill(false);
+      currentConnectors = new Array(Math.max(currentRows.length - 1, 0)).fill(null);
+      openConnectorIndex = null;
+      tagColorMap = {};
+      nextColorIndex = 0;
+      currentTagSetIndex = 0;
+
+      const tagSetButtons = TAG_SETS.map((s, i) =>
+        `<button class="tagset-btn tagswitch-btn${i === 0 ? " active" : ""}" onclick="switchTagSet(${i})" data-tooltip="${escapeHtml(s.tooltip)}">${escapeHtml(s.label)}</button>`
+      ).join("");
+
+      const html = `
+        <div id="copyTarget">
+
+          <div class="panel">
+            <div class="sheet-title">レポート工房　編集シート</div>
+            <p class="note" style="margin-top:4px;">もとのメモ：${escapeHtml(parsed.title || "タイトルなし")}</p>
+          </div>
+
+          <div class="panel">
+            <div class="panel-label">Step 2</div>
+            <div class="panel-title">カードをせいりしよう</div>
+            <div class="panel-hint">
+              <strong>ならべかえ：</strong>▲▼かドラッグ　　<strong>タグ：</strong>同じ色＝同じ段落　　<strong>つなぎ言葉：</strong>カード間の「＋」をおす
+            </div>
+            <div style="margin-top:12px;margin-bottom:6px;font-size:13px;color:var(--text-muted);font-weight:600;">タグのしゅるいをえらぼう</div>
+            <div class="tagset-switcher">${tagSetButtons}</div>
+            <div id="tagSetDesc" class="tagset-desc">${escapeHtml(TAG_SETS[0].tooltip)}</div>
+            <div id="step2Error" class="error-msg"></div>
+            <div style="margin-top:14px;">
+              <button class="add-card-btn" onclick="addCardTop()">＋ 新しいカードを一番上に追加</button>
+            </div>
+            <div class="card-area" id="cardArea"></div>
+          </div>
+
+        </div>
+
+        <div class="panel" style="margin-top:4px;">
+          <div class="panel-label">Step 3</div>
+          <div class="panel-title">カードの文章を直そう</div>
+          <div class="panel-hint">カードの文章をタップすると、直接かきなおせるよ。ならびかえ・タグ・つなぎ言葉もここで調整しよう。</div>
+        </div>
+
+        <div class="panel" style="margin-top:4px;">
+          <div class="panel-label">Step 4</div>
+          <div class="panel-title">文章にまとめよう</div>
+          <div class="panel-hint">下のどちらかをえらんで、文章プレビューを表示しよう。</div>
+          <div class="summarize-options">
+            <button class="summarize-card" onclick="summarize(false)">
+              <span class="sc-title">📝 文章のみでまとめる</span>
+              <span class="sc-desc">タグなし。コピーしてそのまま使える文章になるよ。</span>
+            </button>
+            <button class="summarize-card" onclick="summarize(true)">
+              <span class="sc-title">🏷️ タグ付きでまとめる</span>
+              <span class="sc-desc">段落のタグ名も表示される。構成を確認したいときに使おう。</span>
+            </button>
+          </div>
+          <div id="step3Error" class="error-msg"></div>
+        </div>
+
+        <div id="summarySection" style="display:none;margin-top:4px;">
+          <div class="panel">
+            <div class="panel-title" style="font-size:15px;font-weight:700;color:var(--text-muted);margin-bottom:12px;letter-spacing:0.05em;">📄 文章プレビュー</div>
+            <div id="summaryText" class="summary-text"></div>
+            <div class="btn-row" style="margin-top:14px;">
+              <button class="btn btn-primary" onclick="copySummary()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                この文章をコピー
+              </button>
+              <button class="btn-trash" onclick="clearSummary()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+                文章プレビューを消す
+              </button>
+            </div>
+          </div>
+        </div>
+
+      `;
+
+      document.getElementById("output").innerHTML = html;
+      renderCards();
+    }
+
+    async function copyOutput() {
+      const target = document.getElementById("copyTarget");
+
+      if (!target) {
+        alert("先に編集シートを作ってください。");
+        return;
+      }
+
+      if (openConnectorIndex !== null) {
+        openConnectorIndex = null;
+        renderCards();
+      }
+
+      const removed = Array.from(target.querySelectorAll(".card-controls, .card-delete, .connector-add, .connector-clear")).map(el => ({
+        el,
+        parent: el.parentNode,
+        next: el.nextSibling
+      }));
+      removed.forEach(r => r.el.remove());
+
+      const tagSwaps = Array.from(target.querySelectorAll(".card-tag")).map(cell => {
+        const idx = Number(cell.dataset.index);
+        const original = cell.innerHTML;
+        cell.innerHTML = escapeHtml(currentTags[idx] || "");
+        return { cell, original };
+      });
+
+      const html = target.innerHTML;
+      const text = target.innerText;
+
+      tagSwaps.forEach(s => { s.cell.innerHTML = s.original; });
+      removed.forEach(r => r.parent.insertBefore(r.el, r.next));
+
+      try {
+        await navigator.clipboard.write([
+          new ClipboardItem({
+            "text/html": new Blob([html], { type: "text/html" }),
+            "text/plain": new Blob([text], { type: "text/plain" })
+          })
+        ]);
+
+        alert("コピーしました。Googleドキュメントに貼り付けできます。");
+      } catch (e) {
+        const range = document.createRange();
+        range.selectNode(target);
+        const selection = window.getSelection();
+        selection.removeAllRanges();
+        selection.addRange(range);
+        document.execCommand("copy");
+        selection.removeAllRanges();
+
+        alert("コピーしました。Googleドキュメントに貼り付けできます。");
+      }
+    }
+
+    function summarize(withTags) {
+      if (!currentRows.length) {
+        showError("step3Error", "カードがありません。先にメモをはりつけてください。");
+        return;
+      }
+      const hasContent = currentRows.some(r => r.material.trim());
+      if (!hasContent) {
+        showError("step3Error", "カードに文章がありません。");
+        return;
+      }
+      const paragraphs = [];
+      let currentPara = null;
+
+      currentRows.forEach((row, i) => {
+        const tag = currentTags[i] || "";
+        const connector = i > 0 ? (currentConnectors[i - 1] || null) : null;
+        const text = row.material.trim();
+        if (!text) return;
+
+        const piece = connector ? connector + "、" + text : text;
+
+        if (!currentPara || tag === "" || tag !== currentPara.tag) {
+          currentPara = { tag, pieces: [piece] };
+          paragraphs.push(currentPara);
+        } else {
+          currentPara.pieces.push(piece);
+        }
+      });
+
+      const output = paragraphs.map(p => {
+        const body = p.pieces.join("");
+        return withTags && p.tag ? "【" + p.tag + "】\n" + body : body;
+      }).join("\n\n");
+
+      const section = document.getElementById("summarySection");
+      const out = document.getElementById("summaryText");
+      out.innerText = output;
+      section.style.display = "block";
+      section.scrollIntoView({ behavior: "smooth" });
+      setStep(4);
+    }
+
+    async function copySummary() {
+      const text = document.getElementById("summaryText").innerText;
+      try {
+        await navigator.clipboard.writeText(text);
+        showToast("✅ コピーしました！Googleドキュメントに貼り付けできるよ。");
+      } catch (e) {
+        const range = document.createRange();
+        const el = document.getElementById("summaryText");
+        range.selectNode(el);
+        const sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
+        document.execCommand("copy");
+        sel.removeAllRanges();
+        showToast("✅ コピーしました！Googleドキュメントに貼り付けできるよ。");
+      }
+    }
+
+    function clearSummary() {
+      const sec = document.getElementById("summarySection");
+      const txt = document.getElementById("summaryText");
+      if (txt) txt.innerText = "";
+      if (sec) sec.style.display = "none";
+    }
+
+    function clearAll() {
+      document.getElementById("memoInput").value = "";
+      document.getElementById("output").innerHTML = "";
+      tagColorMap = {};
+      nextColorIndex = 0;
+      currentRows = [];
+      currentTags = [];
+      currentTagCustom = [];
+      currentConnectors = [];
+      setStep(1);
+    }
+
+  </script>
+</body>
+</html>
