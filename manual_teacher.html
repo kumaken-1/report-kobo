@@ -415,28 +415,25 @@
       <h2>準備・導入方法（GASセットアップ）</h2>
     </div>
 
-    <p>このアプリはGoogle Apps Script（GAS）のウェブアプリとして動作します。Googleアカウントがあれば無料で作成・公開できます。</p>
+    <p>このアプリはGitHub Pagesで公開済みです。以下のURLをそのままClassroomや学校ポータルに貼り付けるだけで使えます。インストール不要・Googleアカウント不要です。</p>
 
-    <h3>手順</h3>
-    <ol class="steps">
-      <li><strong>script.google.com</strong> を開き、「新しいプロジェクト」をクリックする。<br>（またはGoogleドライブ →「新規」→「その他」→「Google Apps Script」）</li>
-      <li>プロジェクト名を「レポート工房」などに変更する。</li>
-      <li><strong>Code.gs</strong> にサーバーサイドのコードを貼り付ける。</li>
-      <li>左サイドバーの「＋」→「HTMLファイル」→ ファイル名を <strong>Index</strong>（拡張子不要）にして作成する。</li>
-      <li>Index.html にアプリのHTMLコードを貼り付けて保存する。</li>
-      <li>「デプロイ」→「新しいデプロイ」をクリックする。</li>
-      <li>種類：<strong>ウェブアプリ</strong>、実行ユーザー：<strong>自分</strong>、アクセスできるユーザー：<strong>全員</strong> に設定して「デプロイ」。</li>
-      <li>表示されたURLをコピーして、Classroomや学校のポータルに貼り付けて共有する。</li>
-    </ol>
-
-    <div class="box box-warn">
-      <div class="box-title">注意：初回承認について</div>
-      初めてデプロイするとき、Googleのアクセス承認画面が表示されます。「詳細」→「安全でないページへ移動」→「許可」の順に進んでください。これは自作スクリプトを承認するための手順です。
+    <div class="box box-info">
+      <div class="box-title">公開URL（すぐ使えます）</div>
+      <strong>アプリ本体：</strong><br>
+      <a href="https://kumaken-1.github.io/report-kobo/" target="_blank" style="word-break:break-all;">https://kumaken-1.github.io/report-kobo/</a><br><br>
+      <strong>教師用マニュアル：</strong><br>
+      <a href="https://kumaken-1.github.io/report-kobo/manual_teacher.html" target="_blank" style="word-break:break-all;">https://kumaken-1.github.io/report-kobo/manual_teacher.html</a>
     </div>
 
+    <h3>アプリを更新・修正したいとき</h3>
+    <ol class="steps">
+      <li>GitHubリポジトリ（<a href="https://github.com/kumaken-1/report-kobo" target="_blank">kumaken-1/report-kobo</a>）の <strong>index.html</strong> をブラウザ上で直接編集するか、ローカルで編集して <code>git push</code> する。</li>
+      <li>数分後にGitHub Pagesが自動ビルドされ、URLはそのまま更新内容が反映される。</li>
+    </ol>
+
     <div class="box box-tip">
-      <div class="box-title">更新・修正したいとき</div>
-      コードを変更したら「デプロイ」→「デプロイを管理」→「編集（鉛筆アイコン）」→バージョンを「新バージョン」にして「デプロイ」してください。URLは変わりません。
+      <div class="box-title">GASとして使いたい場合（代替案）</div>
+      Google Classroomのドメイン制限などでGitHub Pagesが使えない環境では、Google Apps Script（GAS）のウェブアプリとして動かすこともできます。script.google.com で新規プロジェクトを作成し、Code.gs とIndex.htmlを貼り付けてウェブアプリとしてデプロイしてください。
     </div>
   </div>
 
@@ -447,9 +444,11 @@
       <h2>授業での使い方の流れ</h2>
     </div>
 
+    <p>画面上部に <strong>① → ② → ③ → ④</strong> のステッパー（進捗バー）が表示されます。操作が進むにつれて現在のステップが青くハイライトされるので、児童が「今どこにいるか」を常に確認できます。</p>
+
     <h3>Step 1｜メモをはりつける</h3>
     <p>児童が事前に作成したメモ（マンダラノート・箇条書きノート・段落形式のメモなど）をテキストとしてコピーし、入力欄に貼り付けます。</p>
-    <p>入力欄の上にある3つのボタンで、メモの形式を選択します。</p>
+    <p>入力欄の上にある3つのボタンで、メモの形式を選択します。メモが空のまま「カードに分ける」を押すと、入力欄の下にエラーメッセージが表示されます。</p>
 
     <table>
       <tr><th>ボタン</th><th>使う場面</th><th>分解のルール</th></tr>
@@ -572,7 +571,7 @@
       <h2>タグセットの選び方</h2>
     </div>
 
-    <p>カードエリアの上部に6種類のタグセット切り替えボタンがあります。追究の種類や文章ジャンルに合わせて選んでください。ボタンにポインタを重ねると説明が表示されます。</p>
+    <p>カードエリアの上部に6種類のタグセット切り替えボタンがあります。追究の種類や文章ジャンルに合わせて選んでください。ボタンをタップ（クリック）すると、その下に選択中のタグセットの説明が常時表示されます。</p>
 
     <table>
       <tr><th>タグセット名</th><th>タグの内容</th><th>向いている場面</th></tr>
@@ -706,7 +705,7 @@
     <h3>Q. タグを変えても色が変わらない</h3>
     <p><strong>A.</strong> プルダウンから別のタグを選ぶと色が変わります。「その他（自分で書く）」を選んだ場合は、テキストを入力してEnterキーを押したあと色が確定します。</p>
 
-    <h3>Q. 「まとめて表示する」で文章が1つにつながってしまう</h3>
+    <h3>Q. 「文章のみでまとめる」で文章が1つにつながってしまう</h3>
     <p><strong>A.</strong> タグを付けていないカードは独立した段落として扱われますが、同じタグのカードは同じ段落としてつながります。意図的に段落を分けたいときは、カードに異なるタグを付けてください。</p>
 
     <h3>Q. 入力したメモが消えてしまった</h3>
@@ -719,7 +718,7 @@
     <p><strong>A.</strong> URLにアクセスすれば何人でも同時に使えます。ただし各自のブラウザで独立して動作するため、データは共有されません。クラス全員がそれぞれの端末で使う形になります。</p>
 
     <h3>Q. 授業後にアプリを修正したい</h3>
-    <p><strong>A.</strong> Google Apps ScriptのエディタでIndex.htmlを編集し、「デプロイを管理」から新バージョンとしてデプロイすれば反映されます。URLは変わりません。</p>
+    <p><strong>A.</strong> GitHubリポジトリ（<a href="https://github.com/kumaken-1/report-kobo" target="_blank">kumaken-1/report-kobo</a>）の index.html をブラウザ上で直接編集し、コミットすると数分で自動反映されます。URLは変わりません。</p>
 
     <div class="box box-info">
       <div class="box-title">その他のご相談</div>
