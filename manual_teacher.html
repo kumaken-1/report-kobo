@@ -3,328 +3,148 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>レポート工房 教師用マニュアル</title>
+  <title>レポートくん 教師用マニュアル</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
+    :root {
+      --green:      #4a9d4e;
+      --green-dark: #35803a;
+      --green-pale: #e8f5e9;
+      --amber:      #f2b32c;
+      --amber-pale: #fdf3d7;
+      --ink:        #2f3e2a;
+      --sub:        #5f7355;
+      --line:       #d5e5cd;
+      --red:        #d9534f;
+    }
+
     body {
-      font-family: "Hiragino Kaku Gothic ProN", "Meiryo", sans-serif;
+      font-family: "Hiragino Maru Gothic ProN", "BIZ UDGothic", "Yu Gothic", "Meiryo", sans-serif;
       font-size: 15px;
-      line-height: 1.8;
-      color: #1a1a1a;
-      background: #f7f9fc;
+      line-height: 1.85;
+      color: var(--ink);
+      background: #f4f9f1;
     }
 
-    .page {
-      max-width: 860px;
-      margin: 0 auto;
-      padding: 32px 24px 80px;
-    }
+    .page { max-width: 880px; margin: 0 auto; padding: 32px 24px 80px; }
 
-    /* ヘッダー */
+    /* カバー */
     .cover {
-      background: linear-gradient(135deg, #1a3a5c, #3c78d8);
+      background: linear-gradient(135deg, #2f6b33, #4a9d4e 60%, #6bbf5a);
       color: #fff;
-      border-radius: 14px;
+      border-radius: 16px;
       padding: 40px 40px 32px;
-      margin-bottom: 40px;
+      margin-bottom: 32px;
     }
-
     .cover-tag {
-      font-size: 12px;
-      letter-spacing: 2px;
-      background: rgba(255,255,255,0.2);
-      display: inline-block;
-      padding: 3px 12px;
-      border-radius: 999px;
-      margin-bottom: 12px;
+      font-size: 12px; letter-spacing: 2px;
+      background: rgba(255,255,255,0.22);
+      display: inline-block; padding: 3px 14px; border-radius: 999px; margin-bottom: 14px;
     }
-
-    .cover h1 {
-      font-size: 32px;
-      font-weight: bold;
-      margin-bottom: 8px;
-    }
-
-    .cover .cover-sub {
-      font-size: 15px;
-      opacity: 0.85;
-      margin-bottom: 24px;
-    }
-
-    .cover-meta {
-      display: flex;
-      gap: 24px;
-      font-size: 13px;
-      opacity: 0.75;
-      flex-wrap: wrap;
-    }
+    .cover h1 { font-size: 34px; font-weight: 900; letter-spacing: 1px; margin-bottom: 8px; }
+    .cover .cover-sub { font-size: 15px; opacity: 0.92; margin-bottom: 22px; }
+    .cover-meta { display: flex; gap: 22px; font-size: 13px; opacity: 0.82; flex-wrap: wrap; }
 
     /* 目次 */
     .toc {
-      background: #fff;
-      border: 1px solid #dde4ef;
-      border-radius: 10px;
-      padding: 24px 28px;
-      margin-bottom: 40px;
+      background: #fff; border: 2px solid var(--line);
+      border-radius: 12px; padding: 22px 26px; margin-bottom: 32px;
     }
-
     .toc h2 {
-      font-size: 16px;
-      color: #3c78d8;
-      margin-bottom: 12px;
-      border-bottom: 2px solid #dde4ef;
-      padding-bottom: 8px;
+      font-size: 15px; color: var(--green-dark); margin-bottom: 12px;
+      border-bottom: 2px solid var(--line); padding-bottom: 8px;
     }
-
-    .toc ol {
-      padding-left: 20px;
-    }
-
-    .toc li {
-      margin-bottom: 4px;
-    }
-
-    .toc a {
-      color: #1a3a5c;
-      text-decoration: none;
-    }
-
-    .toc a:hover {
-      text-decoration: underline;
-    }
+    .toc ol { padding-left: 22px; }
+    .toc li { margin-bottom: 3px; }
+    .toc a { color: var(--ink); text-decoration: none; }
+    .toc a:hover { text-decoration: underline; color: var(--green-dark); }
 
     /* セクション */
     .section {
-      background: #fff;
-      border-radius: 12px;
-      border: 1px solid #dde4ef;
-      padding: 28px 32px;
-      margin-bottom: 28px;
+      background: #fff; border-radius: 14px; border: 2px solid var(--line);
+      padding: 26px 30px; margin-bottom: 26px;
     }
-
     .section-header {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 20px;
-      padding-bottom: 14px;
-      border-bottom: 2px solid #eef2f8;
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 18px; padding-bottom: 12px; border-bottom: 2px solid var(--green-pale);
     }
-
     .section-num {
-      background: #3c78d8;
-      color: #fff;
-      width: 34px;
-      height: 34px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 16px;
-      font-weight: bold;
-      flex-shrink: 0;
+      background: var(--green); color: #fff;
+      width: 34px; height: 34px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px; font-weight: bold; flex-shrink: 0;
     }
-
-    .section h2 {
-      font-size: 20px;
-      color: #1a3a5c;
-    }
+    .section h2 { font-size: 20px; color: var(--green-dark); }
 
     h3 {
-      font-size: 16px;
-      color: #1a3a5c;
-      margin: 20px 0 8px;
-      padding-left: 10px;
-      border-left: 4px solid #3c78d8;
+      font-size: 16px; color: var(--green-dark); margin: 22px 0 8px;
+      padding-left: 10px; border-left: 4px solid var(--green);
     }
+    p { margin-bottom: 10px; }
+    strong { color: var(--ink); }
 
-    p {
-      margin-bottom: 10px;
-    }
-
-    /* ボックス類 */
-    .box {
-      border-radius: 8px;
-      padding: 14px 18px;
-      margin: 12px 0;
-    }
-
-    .box-info {
-      background: #eef4ff;
-      border-left: 4px solid #3c78d8;
-    }
-
-    .box-tip {
-      background: #f0fff4;
-      border-left: 4px solid #38a169;
-    }
-
-    .box-warn {
-      background: #fffbea;
-      border-left: 4px solid #d69e2e;
-    }
-
-    .box-title {
-      font-weight: bold;
-      margin-bottom: 6px;
-      font-size: 14px;
-    }
-
-    .box-info .box-title { color: #2b5cc9; }
-    .box-tip .box-title  { color: #276749; }
+    /* ボックス */
+    .box { border-radius: 10px; padding: 14px 18px; margin: 14px 0; }
+    .box-info { background: #eef6ec; border-left: 4px solid var(--green); }
+    .box-tip  { background: #f0fbef; border-left: 4px solid #38a169; }
+    .box-warn { background: var(--amber-pale); border-left: 4px solid var(--amber); }
+    .box-title { font-weight: bold; margin-bottom: 6px; font-size: 14px; }
+    .box-info .box-title { color: var(--green-dark); }
+    .box-tip  .box-title { color: #276749; }
     .box-warn .box-title { color: #975a16; }
 
-    /* ステップ */
-    .steps {
-      counter-reset: step;
-      list-style: none;
-      padding: 0;
-    }
-
-    .steps li {
-      display: flex;
-      gap: 14px;
-      margin-bottom: 14px;
-      align-items: flex-start;
-    }
-
-    .steps li::before {
-      counter-increment: step;
-      content: counter(step);
-      background: #1a3a5c;
-      color: #fff;
-      min-width: 26px;
-      height: 26px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 13px;
-      font-weight: bold;
-      flex-shrink: 0;
-      margin-top: 2px;
-    }
-
     /* テーブル */
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 12px 0;
-      font-size: 14px;
-    }
+    table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 14px; }
+    th { background: var(--green-dark); color: #fff; padding: 9px 13px; text-align: left; }
+    td { padding: 9px 13px; border-bottom: 1px solid var(--line); vertical-align: top; }
+    tr:nth-child(even) td { background: #f6fbf4; }
 
-    th {
-      background: #1a3a5c;
-      color: #fff;
-      padding: 10px 14px;
-      text-align: left;
-    }
-
-    td {
-      padding: 10px 14px;
-      border-bottom: 1px solid #e2e8f0;
-      vertical-align: top;
-    }
-
-    tr:nth-child(even) td {
-      background: #f7f9fc;
-    }
-
-    /* タグバッジ */
-    .tag-badge {
-      display: inline-block;
-      padding: 2px 10px;
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: bold;
-      margin: 2px 3px;
-    }
-
-    .tag-blue   { background: #dbeafe; color: #1e40af; }
-    .tag-green  { background: #dcfce7; color: #166534; }
-    .tag-yellow { background: #fef9c3; color: #854d0e; }
-    .tag-purple { background: #ede9fe; color: #5b21b6; }
-    .tag-red    { background: #fee2e2; color: #991b1b; }
-    .tag-gray   { background: #f1f5f9; color: #334155; }
-
-    /* カードイメージ */
-    .card-demo {
-      border: 2px solid #d1d5db;
-      border-radius: 10px;
-      padding: 12px 16px;
-      background: #fffde7;
-      margin: 6px 0;
-      font-size: 14px;
-      position: relative;
-    }
-
-    .card-demo .card-tag-demo {
-      font-size: 11px;
-      background: #3c78d8;
-      color: #fff;
-      border-radius: 4px;
-      padding: 1px 7px;
-      position: absolute;
-      top: 8px;
-      right: 10px;
-    }
-
-    /* 画面説明 */
-    .ui-label {
-      display: inline-block;
-      background: #1a3a5c;
-      color: #fff;
-      font-size: 12px;
-      padding: 2px 8px;
-      border-radius: 4px;
-      margin: 0 3px;
-    }
-
-    .btn-demo {
-      display: inline-block;
-      padding: 4px 12px;
-      border-radius: 6px;
-      font-size: 13px;
-      font-weight: bold;
-      margin: 2px 3px;
-    }
-
-    .btn-primary { background: #3c78d8; color: #fff; }
-    .btn-secondary { background: #e2e8f0; color: #1a3a5c; }
-    .btn-danger { background: #fee2e2; color: #991b1b; border: 2px solid #e06060; }
-
-    /* フロー図 */
-    .flow {
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin: 16px 0;
-    }
-
+    /* ステージ・フロー */
+    .flow { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin: 18px 0; }
     .flow-step {
-      background: #eef4ff;
-      border: 2px solid #3c78d8;
-      border-radius: 10px;
-      padding: 10px 18px;
-      font-size: 14px;
-      font-weight: bold;
-      color: #1a3a5c;
-      text-align: center;
+      background: var(--green-pale); border: 2px solid var(--green);
+      border-radius: 12px; padding: 10px 16px; font-size: 14px; font-weight: bold;
+      color: var(--green-dark); text-align: center;
     }
+    .flow-arrow { font-size: 18px; color: var(--green); }
 
-    .flow-arrow {
-      font-size: 20px;
-      color: #3c78d8;
+    /* カテゴリーカード */
+    .cat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin: 14px 0; }
+    .cat-card { border: 2px solid var(--line); border-radius: 12px; padding: 14px 16px; background: #fff; }
+    .cat-card .cat-icon { font-size: 26px; }
+    .cat-card .cat-name { font-weight: bold; color: var(--green-dark); margin: 4px 0; font-size: 15px; }
+    .cat-card .cat-formal { font-size: 12px; color: var(--sub); }
+    .cat-card .cat-desc { font-size: 13px; margin-top: 6px; }
+
+    /* まとまりバッジ */
+    .parts { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-top: 4px; }
+    .part-badge {
+      background: var(--green-pale); border: 1px solid var(--green);
+      color: var(--green-dark); border-radius: 999px; padding: 2px 12px; font-size: 12px; font-weight: bold;
+    }
+    .part-arrow { color: var(--sub); font-size: 12px; }
+
+    /* UIラベル・ボタン風 */
+    .btn-demo { display: inline-block; padding: 3px 12px; border-radius: 999px; font-size: 13px; font-weight: bold; margin: 1px 2px; }
+    .btn-green { background: var(--green); color: #fff; }
+    .btn-pale  { background: var(--green-pale); color: var(--green-dark); border: 1px solid var(--green); }
+    .kbd { display:inline-block; background:#fff; border:1px solid var(--line); border-bottom-width:2px; border-radius:6px; padding:1px 8px; font-size:13px; font-weight:bold; }
+
+    /* ステージ見出し用の絵文字丸 */
+    .stage-emoji {
+      display:inline-flex; align-items:center; justify-content:center;
+      width: 30px; height: 30px; border-radius:50%; background: var(--green-pale);
+      margin-right: 6px; font-size: 17px;
     }
 
     /* 印刷 */
     @media print {
       body { background: #fff; font-size: 13px; }
       .page { padding: 0; }
-      .cover { background: #1a3a5c !important; -webkit-print-color-adjust: exact; }
-      .section { break-inside: avoid; border: 1px solid #ccc; }
+      .cover { background: #35803a !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      th { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .section { break-inside: avoid; border: 1px solid #bbb; }
       a { color: inherit; text-decoration: none; }
     }
   </style>
@@ -335,396 +155,342 @@
   <!-- カバー -->
   <div class="cover">
     <div class="cover-tag">教師用マニュアル</div>
-    <h1>レポート工房</h1>
-    <div class="cover-sub">メモをカードに分解し、並べ替え・タグ付けで文章を組み立てる授業支援アプリ</div>
+    <h1>🌱 レポートくん</h1>
+    <div class="cover-sub">発想メモを、子ども自身の言葉で「まとまりのある文章」へ育てる作文支援アプリ</div>
     <div class="cover-meta">
-      <span>対象：小学生〜中学生</span>
-      <span>教科：国語・総合・理科・社会など</span>
+      <span>対象：小学校3〜6年生</span>
+      <span>教科：国語・総合・理科・社会 ほか</span>
       <span>動作環境：Google Apps Script（ウェブアプリ）</span>
+      <span>版：v2.2.1</span>
     </div>
   </div>
-
-  <!-- マンガマニュアルバナー -->
-  <a href="manual_manga.html" style="display:block; text-decoration:none; margin-bottom:24px;">
-    <div style="background: linear-gradient(135deg, #1e3a5f, #2d6abf); border-radius:12px; padding:20px 28px; display:flex; align-items:center; justify-content:space-between; gap:16px; box-shadow:0 4px 16px rgba(0,0,0,0.12);">
-      <div>
-        <div style="font-size:11px; letter-spacing:2px; color:rgba(255,255,255,0.65); margin-bottom:6px;">COMIC GUIDE</div>
-        <div style="font-size:18px; font-weight:bold; color:#fff; margin-bottom:4px;">📖 マンガでわかる使い方（全8ページ）</div>
-        <div style="font-size:13px; color:rgba(255,255,255,0.75);">児童への最初の説明や、授業導入時のスライド代わりにどうぞ。</div>
-      </div>
-      <div style="font-size:28px; flex-shrink:0;">→</div>
-    </div>
-  </a>
 
   <!-- 目次 -->
   <div class="toc">
     <h2>目次</h2>
     <ol>
-      <li><a href="#overview">このアプリでできること</a></li>
-      <li><a href="#setup">準備・導入方法（GASセットアップ）</a></li>
-      <li><a href="#flow">授業での使い方の流れ</a></li>
-      <li><a href="#features">各機能の詳細説明</a></li>
-      <li><a href="#tagsets">タグセットの選び方</a></li>
-      <li><a href="#scenes">授業活用シーン例</a></li>
-      <li><a href="#faq">よくある質問・トラブル対応</a></li>
+      <li><a href="#idea">1. このアプリの考え方（大事な前提）</a></li>
+      <li><a href="#categories">2. 4つのカテゴリーと6つの型</a></li>
+      <li><a href="#flow">3. 5つのステージ（たね→め→くき→は→はな）</a></li>
+      <li><a href="#features">4. おもな機能</a></li>
+      <li><a href="#setup">5. 先生の準備（導入・ログイン・プリセット）</a></li>
+      <li><a href="#monitor">6. 見取り（先生用の一覧タブ）</a></li>
+      <li><a href="#scenes">7. 授業活用シーン例</a></li>
+      <li><a href="#faq">8. よくある質問・トラブル対応</a></li>
     </ol>
   </div>
 
-  <!-- 1. 概要 -->
-  <div class="section" id="overview">
-    <div class="section-header">
-      <div class="section-num">1</div>
-      <h2>このアプリでできること</h2>
+  <!-- 1. 考え方 -->
+  <div class="section" id="idea">
+    <div class="section-header"><div class="section-num">1</div><h2>このアプリの考え方（大事な前提）</h2></div>
+
+    <p>「レポートくん」は、児童が集めた<strong>発想メモ（マンダラノートや箇条書き）を材料カードに分解し、目的に合った文章の型のなかで「まとまり（段落）」へ整理して、自分の言葉で文章に育てる</strong>アプリです。</p>
+
+    <div class="box box-info">
+      <div class="box-title">いちばん大切な設計思想</div>
+      <strong>アプリは文章を自動生成しません。</strong>カードはあくまで「材料」として横に置かれるだけで、本文には自動で入りません。<strong>書くのは子ども自身</strong>です。アプリは、材料を並べ、まとまりを考え、書き出しの型を示すことで、「何を・どの順で・どう書くか」の思考を支えます。
     </div>
 
-    <p>「レポート工房」は、児童・生徒がメモを貼り付けるだけで、報告文・意見文・説明文などのレポートを書く前段階の思考整理を支援するウェブアプリです。</p>
+    <div class="box box-tip">
+      <div class="box-title">学習指導要領との対応</div>
+      とくに第3・4学年の「<strong>内容のまとまりで段落をつくる</strong>」「<strong>段落相互の関係に注意する</strong>」という指導事項に対応しています。カードをまとまりへ振り分ける活動が「段落をつくる力」を、まとまりの順序を考える活動が「段落相互の関係を考える力」を育てます。
+    </div>
+
+    <h3>このアプリが引き受けること／子どもに残すこと</h3>
+    <table>
+      <tr><th>アプリが引き受ける</th><th>子どもに残す（＝学びの中心）</th></tr>
+      <tr><td>メモをカードに分解する</td><td>どのカードを、どのまとまりに入れるか</td></tr>
+      <tr><td>目的に合う型と、まとまりの枠を示す</td><td>まとまりを、どんな順番に並べるか</td></tr>
+      <tr><td>書き出しの「文の型」を示す</td><td>語尾・つなぎ言葉・表現を自分で書くこと</td></tr>
+      <tr><td>推敲のチェック項目を示す</td><td>読み返して直すかどうかの判断</td></tr>
+    </table>
+  </div>
+
+  <!-- 2. カテゴリーと型 -->
+  <div class="section" id="categories">
+    <div class="section-header"><div class="section-num">2</div><h2>4つのカテゴリーと6つの型</h2></div>
+
+    <p>子どもは、まず「何のために書くか」で<strong>4つのカテゴリー</strong>から1つを選びます。カテゴリーを選ぶと、その中の<strong>具体的な型</strong>が絞り込まれます。型は全部で6つです。</p>
+
+    <div class="cat-grid">
+      <div class="cat-card">
+        <div class="cat-icon">🌻</div>
+        <div class="cat-name">見たこと・したこと・感じたことを伝える</div>
+        <div class="cat-formal">生活作文・エッセイ</div>
+        <div class="cat-desc">場面や出来事、自分が感じたことを書く。</div>
+      </div>
+      <div class="cat-card">
+        <div class="cat-icon">🔎</div>
+        <div class="cat-name">調べて分かったことを伝える</div>
+        <div class="cat-formal">報告文・説明文</div>
+        <div class="cat-desc">事実や仕組みを、初めて読む人にも分かるように書く。</div>
+      </div>
+      <div class="cat-card">
+        <div class="cat-icon">⭐</div>
+        <div class="cat-name">ものやことのよさを伝える</div>
+        <div class="cat-formal">紹介文・すいせん文</div>
+        <div class="cat-desc">特徴やよさを、理由や例といっしょに書く。</div>
+      </div>
+      <div class="cat-card">
+        <div class="cat-icon">💬</div>
+        <div class="cat-name">自分の考えを理由といっしょに伝える</div>
+        <div class="cat-formal">意見文・提案文</div>
+        <div class="cat-desc">自分の考えを、理由や例で支えて書く。</div>
+      </div>
+    </div>
+
+    <h3>6つの型と、そのまとまり（段落）</h3>
+    <table>
+      <tr><th>カテゴリー</th><th>型</th><th>まとまり（段落）の構成</th></tr>
+      <tr>
+        <td>🌻 経験</td>
+        <td><strong>場面や出来事から書く</strong></td>
+        <td><div class="parts"><span class="part-badge">場面・出来事</span><span class="part-arrow">→</span><span class="part-badge">くわしい様子</span><span class="part-arrow">→</span><span class="part-badge">感じたこと・考えたこと</span></div></td>
+      </tr>
+      <tr>
+        <td>🔎 報告</td>
+        <td><strong>調べたことを報告する</strong></td>
+        <td><div class="parts"><span class="part-badge">はじめ</span><span class="part-arrow">→</span><span class="part-badge">なか1</span><span class="part-arrow">→</span><span class="part-badge">なか2</span><span class="part-arrow">→</span><span class="part-badge">なか3</span><span class="part-arrow">→</span><span class="part-badge">おわり</span></div><div style="font-size:12px;color:var(--sub);margin-top:4px;">※なか2・なか3は、書くことがあるときだけ使えばOK</div></td>
+      </tr>
+      <tr>
+        <td>🔎 報告</td>
+        <td><strong>観察・実験を報告する</strong></td>
+        <td><div class="parts"><span class="part-badge">問い・予想</span><span class="part-arrow">→</span><span class="part-badge">方法</span><span class="part-arrow">→</span><span class="part-badge">結果</span><span class="part-arrow">→</span><span class="part-badge">考察</span></div></td>
+      </tr>
+      <tr>
+        <td>⭐ 推薦</td>
+        <td><strong>ものやことを紹介・すいせんする</strong></td>
+        <td><div class="parts"><span class="part-badge">紹介したいもの・こと</span><span class="part-arrow">→</span><span class="part-badge">よさ・とくちょう</span><span class="part-arrow">→</span><span class="part-badge">よさが分かる例</span><span class="part-arrow">→</span><span class="part-badge">まとめ・おすすめ</span></div></td>
+      </tr>
+      <tr>
+        <td>💬 意見</td>
+        <td><strong>自分の意見を伝える</strong></td>
+        <td><div class="parts"><span class="part-badge">主張</span><span class="part-arrow">→</span><span class="part-badge">理由</span><span class="part-arrow">→</span><span class="part-badge">反対意見</span><span class="part-arrow">→</span><span class="part-badge">まとめ</span></div></td>
+      </tr>
+      <tr>
+        <td>💬 意見</td>
+        <td><strong>よりよくする方法を提案する</strong></td>
+        <td><div class="parts"><span class="part-badge">課題</span><span class="part-arrow">→</span><span class="part-badge">提案</span><span class="part-arrow">→</span><span class="part-badge">理由・よさ</span><span class="part-arrow">→</span><span class="part-badge">呼びかけ</span></div></td>
+      </tr>
+    </table>
+
+    <div class="box box-tip">
+      <div class="box-title">型は「足場」であって「正解」ではありません</div>
+      まとまりの数や順序は、子どもが自分で調整できます（後述の「まとまりの順序」）。型は書き始めの足場として示し、慣れてきたら並べ替えや取捨選択を子どもに委ねてください。
+    </div>
+  </div>
+
+  <!-- 3. ステージ -->
+  <div class="section" id="flow">
+    <div class="section-header"><div class="section-num">3</div><h2>5つのステージ（たね→め→くき→は→はな）</h2></div>
+
+    <p>アプリは、植物が育つ5つのステージで進みます。画面上部のステッパーで「今どこにいるか」が分かります。</p>
 
     <div class="flow">
-      <div class="flow-step">① メモを貼り付ける</div>
+      <div class="flow-step">🌰 たね<br><span style="font-weight:normal;font-size:12px;">メモ</span></div>
       <div class="flow-arrow">▶</div>
-      <div class="flow-step">② カードに自動分解</div>
+      <div class="flow-step">🌱 め<br><span style="font-weight:normal;font-size:12px;">目的</span></div>
       <div class="flow-arrow">▶</div>
-      <div class="flow-step">③ 並べ替え・タグ付け</div>
+      <div class="flow-step">🌿 くき<br><span style="font-weight:normal;font-size:12px;">組み立て</span></div>
       <div class="flow-arrow">▶</div>
-      <div class="flow-step">④ 文章を直す</div>
+      <div class="flow-step">🍃 は<br><span style="font-weight:normal;font-size:12px;">文章</span></div>
       <div class="flow-arrow">▶</div>
-      <div class="flow-step">⑤ まとめてコピー</div>
+      <div class="flow-step">🌸 はな<br><span style="font-weight:normal;font-size:12px;">仕上げ</span></div>
     </div>
 
-    <h3>主な機能</h3>
+    <h3><span class="stage-emoji">🌰</span>たね｜メモを材料カードにする</h3>
+    <p>発想メモをカードに分解します。入力方法は2通りです。</p>
     <table>
-      <tr><th>機能</th><th>説明</th></tr>
-      <tr><td>メモの自動カード化</td><td>マンダラメモ・箇条書き・段落区切りの3形式に対応。貼り付けると自動でカード（短冊）に分解される。</td></tr>
-      <tr><td>カードの並べ替え</td><td>▲▼ボタンまたはドラッグ&ドロップで順番を変えられる。</td></tr>
-      <tr><td>タグ付け・色分け</td><td>カードにタグをつけると同じタグが同じ色になる。同じ色＝同じ段落として視覚化。</td></tr>
-      <tr><td>つなぎ言葉の挿入</td><td>カードとカードの間に「しかし」「そこで」などのつなぎ言葉を入れられる。</td></tr>
-      <tr><td>カードの追加・削除・編集</td><td>一番上に新しいカードを追加、不要なカードを削除できる。Step 3 でカード内のテキストを直接タップして推敲する。</td></tr>
-      <tr><td>まとめ出力</td><td>カードを文章に統合して表示。タグ名入り／なしを切り替えられる。コピーして作文ツールへ貼り付け。</td></tr>
+      <tr><th>入力方法</th><th>内容</th></tr>
+      <tr><td><strong>はりつける</strong></td><td>マンダラノートや箇条書きのメモをコピーして貼り付ける。「マンダラメモ／箇条書き（・）／段落（空行区切り）」の3形式に対応。</td></tr>
+      <tr><td><strong>自分で書く</strong></td><td>アプリの中で直接、1行に1つずつ書く。<span class="kbd">Enter</span>で次の行が増える。書くことがまだ手元にない子向け。</td></tr>
     </table>
+    <p><span class="btn-demo btn-pale">お手本メモを入れる</span> を押すと、サンプルのメモが入り、流れを体験できます。準備ができたら <span class="btn-demo btn-green">カードにする</span> でカードに分解します。</p>
 
+    <h3><span class="stage-emoji">🌱</span>め｜「何を・だれに・どう伝えるか」を決める</h3>
+    <p>調査の「問い」を一律に求めるのではなく、まず<strong>書く目的</strong>を決めます。カテゴリーを1つ選び、次の4つを短く書きます（今の考えでOK、あとで直せます）。</p>
+    <table>
+      <tr><th>項目</th><th>問いかけ</th></tr>
+      <tr><td>題材</td><td>今回、何について書く？</td></tr>
+      <tr><td>相手</td><td>だれに読んでもらう？</td></tr>
+      <tr><td>読後</td><td>読んだ人に、どうなってほしい？</td></tr>
+      <tr><td>中心</td><td>一番伝えたいことは？</td></tr>
+    </table>
+    <p>この4つは、この先のステージでも<strong>「🧭 書くときのものさし」</strong>として画面に表示され続けます。「だれに・どうなってほしい・一番伝えたい」を見ながら書けるので、目的からぶれにくくなります。</p>
     <div class="box box-info">
-      <div class="box-title">対応している文章ジャンル</div>
-      報告文・調査レポート・意見文・説明文・読書感想文・振り返り文など、段落構成が必要な文章全般で使えます。教科を問わず活用できます。
-    </div>
-  </div>
-
-  <!-- 2. セットアップ -->
-  <div class="section" id="setup">
-    <div class="section-header">
-      <div class="section-num">2</div>
-      <h2>準備・導入方法（GASセットアップ）</h2>
+      <div class="box-title">補助の「問い」欄</div>
+      報告・観察の型など、問いから始めるとよい型では、追加で「調べたいこと／確かめたいこと」を書く欄が出ます。エッセイや紹介文では、この問いは完成文には出ません。
     </div>
 
-    <p>このアプリはGitHub Pagesで公開済みです。以下のURLをそのままClassroomや学校ポータルに貼り付けるだけで使えます。インストール不要・Googleアカウント不要です。</p>
+    <h3><span class="stage-emoji">🌿</span>くき｜型を選び、カードをまとまりへ振り分け、順序を決める</h3>
+    <p>まず、選んだカテゴリーの中から<strong>型</strong>を選びます。次に、各カードを<strong>まとまり（段落）</strong>へ振り分けます。使わないカードは「つかわない」に置いてかまいません。</p>
+    <p>すべてのカードを振り分けると、<strong>まとまりの順序</strong>を考える活動に進めます。</p>
+    <table>
+      <tr><th>モード</th><th>できること</th></tr>
+      <tr><td><strong>基本モード</strong></td><td>「はじめ」「おわり」は固定し、「なか」にあたるまとまりだけを並べ替える。ドラッグのほか「前へ／後ろへ」ボタンでも動かせる。</td></tr>
+      <tr><td><strong>発展モード</strong></td><td>子どもが選ぶと、はじめ・おわりも含めて全部の順番を自分で決められる。「ひな形の順番にもどす」も可能。</td></tr>
+    </table>
+    <p>並べ替えたあと、<strong>「順番を決めた理由」</strong>を選びます（時間の順／大事なことが伝わる順／理由と結果がつながる順 など）。これは正誤判定には使わず、構成判断を言語化させるためのものです。</p>
+    <div class="box box-tip">
+      <div class="box-title">まとまりの「つなぎ」の見える化</div>
+      まとまりとまとまりの間には、型ごとの関係語（例：報告文なら「調べてみると」「さらに」「分かったことから」）が表示され、段落どうしのつながりを意識できます。
+    </div>
 
+    <h3><span class="stage-emoji">🍃</span>は｜カードを材料に、自分の言葉で書く</h3>
+    <p>各まとまりの文章欄に、子どもが本文を書きます。まとまりに置いたカードを押すと、<strong>そのカードの本文が文章欄に挿入</strong>されます（カーソル位置、なければ末尾へ）。挿入されるのはカード本文だけで、まとまり名やグループ名は入りません。</p>
     <div class="box box-info">
-      <div class="box-title">公開URL（すぐ使えます）</div>
-      <strong>アプリ本体：</strong><br>
-      <a href="https://kumaken-1.github.io/report-kobo/" target="_blank" style="word-break:break-all;">https://kumaken-1.github.io/report-kobo/</a><br><br>
-      <strong>教師用マニュアル：</strong><br>
-      <a href="https://kumaken-1.github.io/report-kobo/manual_teacher.html" target="_blank" style="word-break:break-all;">https://kumaken-1.github.io/report-kobo/manual_teacher.html</a>
+      <div class="box-title">「入れて終わり」にしない仕掛け</div>
+      カードを挿入すると「相手に伝わる文へ書きかえよう」という趣旨の案内が出ます。挿入した材料をそのまま並べるのではなく、語尾・つなぎ言葉・順序を子どもが書き直すことを促します。各まとまりには<strong>「文の型」</strong>（例：「調べてみると、〜ということが分かった。」）も用意されています。
     </div>
 
-    <h3>アプリを更新・修正したいとき</h3>
-    <ol class="steps">
-      <li>GitHubリポジトリ（<a href="https://github.com/kumaken-1/report-kobo" target="_blank">kumaken-1/report-kobo</a>）の <strong>index.html</strong> をブラウザ上で直接編集するか、ローカルで編集して <code>git push</code> する。</li>
-      <li>数分後にGitHub Pagesが自動ビルドされ、URLはそのまま更新内容が反映される。</li>
-    </ol>
-
-    <div class="box box-tip">
-      <div class="box-title">GASとして使いたい場合（代替案）</div>
-      Google Classroomのドメイン制限などでGitHub Pagesが使えない環境では、Google Apps Script（GAS）のウェブアプリとして動かすこともできます。script.google.com で新規プロジェクトを作成し、Code.gs とIndex.htmlを貼り付けてウェブアプリとしてデプロイしてください。
-    </div>
+    <h3><span class="stage-emoji">🌸</span>はな｜読み直して仕上げ、コピーする</h3>
+    <p>型ごとの<strong>チェック項目</strong>（例：「なかに、事実と考えの両方があるか」）を確かめながら推敲します。完成した文章はコピーして、Googleドキュメントなどに貼り付けて清書できます。</p>
   </div>
 
-  <!-- 3. 授業での流れ -->
-  <div class="section" id="flow">
-    <div class="section-header">
-      <div class="section-num">3</div>
-      <h2>授業での使い方の流れ</h2>
-    </div>
-
-    <p>画面上部に <strong>① → ② → ③ → ④</strong> のステッパー（進捗バー）が表示されます。操作が進むにつれて現在のステップが青くハイライトされるので、児童が「今どこにいるか」を常に確認できます。</p>
-
-    <h3>Step 1｜メモをはりつける</h3>
-    <p>児童が事前に作成したメモ（マンダラノート・箇条書きノート・段落形式のメモなど）をテキストとしてコピーし、入力欄に貼り付けます。</p>
-    <p>入力欄の上にある3つのボタンで、メモの形式を選択します。メモが空のまま「カードに分ける」を押すと、入力欄の下にエラーメッセージが表示されます。</p>
-
-    <table>
-      <tr><th>ボタン</th><th>使う場面</th><th>分解のルール</th></tr>
-      <tr>
-        <td><strong>マンダラメモ</strong></td>
-        <td>マンダラノートから書き出したメモ</td>
-        <td>「1.」「2.」などの番号付き行が1枚のカードに。「・」の行は同じカードに統合。</td>
-      </tr>
-      <tr>
-        <td><strong>箇条書き（・）</strong></td>
-        <td>箇条書きのメモ・付箋アプリからの書き出し</td>
-        <td>「・」「-」「*」で始まる行が1枚のカードに。最初の行はタイトル。</td>
-      </tr>
-      <tr>
-        <td><strong>段落（空行区切り）</strong></td>
-        <td>文章の下書き・段落単位のメモ</td>
-        <td>空白行で区切られたひとまとまりが1枚のカードに。</td>
-      </tr>
-    </table>
-
-    <p>形式を選んだら <span class="btn-demo btn-primary">カードに分ける</span> をタップします。</p>
-
-    <h3>Step 2｜カードを整理する</h3>
-    <p>カードが縦に並んで表示されます。以下の操作で構成を整えます。</p>
-
-    <table>
-      <tr><th>操作</th><th>方法</th><th>目的</th></tr>
-      <tr><td>並べ替え</td><td>▲▼ボタン、またはドラッグ＆ドロップ</td><td>文章の順番を組み立てる</td></tr>
-      <tr><td>タグ付け</td><td>各カードのプルダウンから選択</td><td>同じ段落のカードを同じ色でまとめる</td></tr>
-      <tr><td>つなぎ言葉</td><td>カード間の「＋ つなぎ言葉」をタップ</td><td>カードとカードを自然につなぐ</td></tr>
-      <tr><td>カード追加</td><td>「＋ 新しいカードを一番上に追加」</td><td>メモになかった内容を加える</td></tr>
-      <tr><td>カード削除</td><td>ゴミ箱アイコン（各カード右上）</td><td>不要な材料を取り除く</td></tr>
-    </table>
-
-    <h3>Step 3｜カードの文章を直す</h3>
-    <p>構成が決まったら、各カードの文章を読み返して推敲します。カードの文章部分をタップすると直接書きなおせます。</p>
-
-    <table>
-      <tr><th>操作</th><th>方法</th><th>目的</th></tr>
-      <tr><td>文章の書きなおし</td><td>カードの文章をタップして直接編集</td><td>表現・語尾・文末を整える</td></tr>
-      <tr><td>つなぎ言葉の調整</td><td>カード間のチップをタップして変更・削除</td><td>段落のつながりを滑らかにする</td></tr>
-      <tr><td>並び順の最終確認</td><td>▲▼ボタンで微調整</td><td>読み返して違和感があれば入れ替える</td></tr>
-    </table>
-
-    <div class="box box-tip">
-      <div class="box-title">指導のポイント</div>
-      Step 2 は「何をどの順番で書くか（構成）」、Step 3 は「どう書くか（表現）」と役割を分けて伝えると、児童が混乱しにくくなります。
-    </div>
-
-    <h3>Step 4｜まとめてコピーする</h3>
-    <p>推敲が終わったら、2枚のカードボタンで文章プレビューを確認します。</p>
-
-    <table>
-      <tr><th>ボタン</th><th>表示内容</th><th>使い場面</th></tr>
-      <tr>
-        <td><span class="btn-demo btn-primary">📝 文章のみでまとめる</span></td>
-        <td>文章のみ（タグ名なし）</td>
-        <td>完成文を確認したいとき・提出用</td>
-      </tr>
-      <tr>
-        <td><span class="btn-demo btn-secondary">🏷️ タグ付きでまとめる</span></td>
-        <td>【タグ名】＋文章</td>
-        <td>段落構成を確認したいとき・指導用</td>
-      </tr>
-    </table>
-
-    <p>「文章プレビュー」に表示された文章を <span class="btn-demo btn-primary">この文章をコピー</span> でコピーし、Google ドキュメントなどに貼り付けて清書します。コピー成功時は画面下に通知が表示されます。</p>
-  </div>
-
-  <!-- 4. 各機能 -->
+  <!-- 4. 機能 -->
   <div class="section" id="features">
-    <div class="section-header">
-      <div class="section-num">4</div>
-      <h2>各機能の詳細説明</h2>
-    </div>
+    <div class="section-header"><div class="section-num">4</div><h2>おもな機能</h2></div>
 
-    <h3>タグと色分け</h3>
-    <p>各カードのプルダウン（「タグを選ぶ」）でタグを選ぶと、<strong>同じタグのカードが同じ背景色</strong>になります。</p>
-
-    <div style="display:flex; gap:10px; flex-wrap:wrap; margin:10px 0;">
-      <div class="card-demo" style="background:#fff9c4; border-color:#f9c84e; width:200px;">調べて分かったこと：○○は△△だった。<div class="card-tag-demo">中①</div></div>
-      <div class="card-demo" style="background:#c8f7c5; border-color:#4caf50; width:200px;">調べて分かったこと：□□についても同じで…<div class="card-tag-demo">中①</div></div>
-      <div class="card-demo" style="background:#cce5ff; border-color:#4a90d9; width:200px;">考えたこと：だから、○○が大切だと思う。<div class="card-tag-demo">中②</div></div>
-    </div>
-
-    <p>同じ色のカードが隣り合って並んでいると、「このまとまりが一つの段落」と視覚的に判断できます。<strong>色がバラバラになっているカードは、段落の整理が必要なサイン</strong>です。</p>
-
-    <div class="box box-tip">
-      <div class="box-title">指導のポイント</div>
-      「同じ色がついているカードを隣同士に集めてみよう」と声がけすると、自然に段落意識が育ちます。
-    </div>
-
-    <h3>つなぎ言葉パレット</h3>
-    <p>カードとカードの間にある <span class="btn-demo btn-secondary">＋ つなぎ言葉</span> をタップするとパレットが開きます。</p>
-
-    <table>
-      <tr><th>カテゴリ</th><th>例</th></tr>
-      <tr><td>順序・展開</td><td>まず、次に、それから、最後に</td></tr>
-      <tr><td>理由・根拠</td><td>なぜなら、その理由は、というのも</td></tr>
-      <tr><td>対比・逆接</td><td>しかし、一方で、ところが、でも</td></tr>
-      <tr><td>まとめ・結論</td><td>つまり、このように、以上のことから</td></tr>
-      <tr><td>例示</td><td>たとえば、具体的には、その例として</td></tr>
-      <tr><td>追加</td><td>また、さらに、加えて</td></tr>
-      <tr><td>自由入力</td><td>自分でつなぎ言葉を入力できる</td></tr>
-    </table>
-
-    <h3>「全部消す」ボタン</h3>
-    <p>入力欄とカードエリアをすべてリセットします。新しい追究内容でやり直す際に使います。</p>
-
+    <h3>自動保存とログイン</h3>
+    <p>児童は<strong>学年・組・番号・パスワード</strong>でログインします（名簿は先生が用意）。作業は<strong>入力が止まって20秒後</strong>と<strong>ステージを移動したとき</strong>に自動保存されます。手動の「保存する」ボタンもあります。次回ログイン時は、最後に保存した続きが自動で開きます。</p>
     <div class="box box-warn">
-      <div class="box-title">注意</div>
-      「全部消す」を押すと入力内容はすべて消えます。保存機能はありませんので、コピーしてからリセットするよう事前に伝えてください。
+      <div class="box-title">半角入力の注意</div>
+      組・番号・パスワードは半角で入力します。全角が混じると、その場で文字が赤くなり「半角で入れてください」と表示されます。
+    </div>
+
+    <h3>複数の作品を残せる</h3>
+    <p>1人の児童が<strong>複数の作品</strong>を持てます。保存バーの「作品えらび」で切り替えられ、「🆕 新しい作品を始める」で今の作品を残したまま次の作品を始められます。学期を通じた作品の蓄積や、評価の材料として活用できます。</p>
+
+    <h3>発想メモの2つの入口・3つの形式</h3>
+    <p>「はりつける」ではマンダラメモ・箇条書き・段落の3形式に対応。番号や「・」の付き方でカードの分かれ方が変わります。「自分で書く」ではアプリ内で直接メモを作れます。</p>
+  </div>
+
+  <!-- 5. 準備 -->
+  <div class="section" id="setup">
+    <div class="section-header"><div class="section-num">5</div><h2>先生の準備（導入・ログイン・プリセット）</h2></div>
+
+    <h3>導入（GASウェブアプリ）</h3>
+    <p>このアプリはログインと保存にサーバー機能を使うため、<strong>Google Apps Script（GAS）のウェブアプリ</strong>として動かします。</p>
+    <ol style="padding-left:22px;">
+      <li>script.google.com で新規プロジェクトを作成し、<strong>Code.gs</strong> と <strong>Index.html</strong>（ファイル名 <code>Index</code>）を貼り付ける。</li>
+      <li>「ウェブアプリ」としてデプロイし、発行されたURLを児童に配布する（Classroom等）。</li>
+      <li>初回に、名簿・データ・設定・見取りの各タブが入ったスプレッドシートが用意されます。</li>
+    </ol>
+    <div class="box box-info">
+      <div class="box-title">最新版の見分け方</div>
+      画面いちばん下に版番号（例：<strong>v2.2.1</strong>）が表示されます。コードを貼り替えたら、この番号が上がっているか確認してください。
+    </div>
+
+    <h3>名簿タブ（ログインの土台）</h3>
+    <p>スプレッドシートの「<strong>名簿</strong>」タブに、学年・組・出席番号・名前・パスワードを児童ごとに1行入力します。認証は「学年＋組＋出席番号＋パスワード」で行い、名前は表示用です。</p>
+
+    <h3>設定タブ（型・入力形式のプリセット）</h3>
+    <p>「<strong>設定</strong>」タブで、学年・組ごとに「レポートの型」と「入力形式」を初期値として指定できます（各セルはプルダウン）。組を空欄にするとその学年全体に適用され、組を指定した行が優先されます。</p>
+    <div class="box box-info">
+      <div class="box-title">プリセットは「初期値」。上位にいるのは子ども</div>
+      設定タブやURLで指定した型・入力形式は<strong>初期値</strong>で、児童はアプリ上でいつでも変更できます。保存済みの作業が最優先で、次に URL 指定、次に設定タブ、の順です。
+    </div>
+    <p>URLで指定する場合は、配布URLの末尾に付けます（例：<code>?input=bullet&amp;template=houkoku</code>）。<code>input</code> は <code>mandala / bullet / paragraph</code>、<code>template</code> は型のキーです。</p>
+
+    <p>設定タブの「レポートの型」プルダウンは、現行の6つの型に対応しています。</p>
+    <div class="parts" style="margin:6px 0 12px;">
+      <span class="part-badge">場面や出来事から書く</span>
+      <span class="part-badge">調べたことを報告する</span>
+      <span class="part-badge">観察・実験を報告する</span>
+      <span class="part-badge">ものやことを紹介・すいせんする</span>
+      <span class="part-badge">自分の意見を伝える</span>
+      <span class="part-badge">よりよくする方法を提案する</span>
+    </div>
+    <div class="box box-warn">
+      <div class="box-title">既存のスプレッドシートを使うときの注意</div>
+      すでに「設定」タブが作られているスプレッドシートでは、最新版を貼り付けても<strong>プルダウンの選択肢は自動では更新されません</strong>。設定タブを一度<strong>削除して開き直す</strong>と、現行の6つの型で再生成されます。旧い型名（ほうこく文 など）で入力済みのセルも引き続き有効です（「起承転結」は廃止済みのため無効になります）。
     </div>
   </div>
 
-  <!-- 5. タグセット -->
-  <div class="section" id="tagsets">
-    <div class="section-header">
-      <div class="section-num">5</div>
-      <h2>タグセットの選び方</h2>
-    </div>
+  <!-- 6. 見取り -->
+  <div class="section" id="monitor">
+    <div class="section-header"><div class="section-num">6</div><h2>見取り（先生用の一覧タブ）</h2></div>
 
-    <p>カードエリアの上部に6種類のタグセット切り替えボタンがあります。追究の種類や文章ジャンルに合わせて選んでください。ボタンをタップ（クリック）すると、その下に選択中のタグセットの説明が常時表示されます。</p>
+    <p>スプレッドシートの「<strong>見取り</strong>」タブに、児童が保存するたびに状況が自動でまとまります。児童の作業データ（データタブ）は機械用のJSONですが、見取りタブは<strong>先生が読める形</strong>に整えたものです。</p>
 
     <table>
-      <tr><th>タグセット名</th><th>タグの内容</th><th>向いている場面</th></tr>
-      <tr>
-        <td><strong>マンダラ系</strong></td>
-        <td>
-          <span class="tag-badge tag-blue">見たこと・聞いたこと</span>
-          <span class="tag-badge tag-green">調べて分かったこと</span>
-          <span class="tag-badge tag-yellow">気になったこと・疑問</span>
-          <span class="tag-badge tag-purple">考えたこと・気づき</span>
-          <span class="tag-badge tag-red">うまくいったこと・困ったこと</span>
-          <span class="tag-badge tag-gray">困っていること・助けてほしいこと</span>
-          <span class="tag-badge tag-blue">みんなに伝えたいこと</span>
-        </td>
-        <td>マンダラノートを使った総合的な学習。思考の種類でカードを整理する段階に向く。</td>
-      </tr>
-      <tr>
-        <td><strong>問い→調査型</strong></td>
-        <td>
-          <span class="tag-badge tag-blue">問い</span>
-          <span class="tag-badge tag-green">調べ方</span>
-          <span class="tag-badge tag-yellow">分かったこと</span>
-          <span class="tag-badge tag-purple">考察</span>
-          <span class="tag-badge tag-gray">まとめ</span>
-        </td>
-        <td>理科・社会・総合の調査報告。「なぜ？」から始めて結論まで整理する。</td>
-      </tr>
-      <tr>
-        <td><strong>課題→提案型</strong></td>
-        <td>
-          <span class="tag-badge tag-blue">現状と課題</span>
-          <span class="tag-badge tag-green">調べたこと</span>
-          <span class="tag-badge tag-yellow">提案</span>
-          <span class="tag-badge tag-gray">これから</span>
-        </td>
-        <td>社会問題や学校・地域の課題について提案する文章。</td>
-      </tr>
-      <tr>
-        <td><strong>制作・実践型</strong></td>
-        <td>
-          <span class="tag-badge tag-blue">目標</span>
-          <span class="tag-badge tag-green">計画</span>
-          <span class="tag-badge tag-yellow">やったこと</span>
-          <span class="tag-badge tag-purple">うまくいったこと</span>
-          <span class="tag-badge tag-red">改善点</span>
-          <span class="tag-badge tag-gray">振り返り</span>
-        </td>
-        <td>制作・実践報告書。ものを作った過程や学んだことをまとめる。</td>
-      </tr>
-      <tr>
-        <td><strong>段落番号型</strong></td>
-        <td>
-          <span class="tag-badge tag-blue">初め</span>
-          <span class="tag-badge tag-green">中①</span>
-          <span class="tag-badge tag-yellow">中②</span>
-          <span class="tag-badge tag-purple">中③</span>
-          <span class="tag-badge tag-gray">終わり</span>
-        </td>
-        <td>「初め・中・終わり」の構成を学んでいる段階。段落の位置でシンプルに整理。</td>
-      </tr>
-      <tr>
-        <td><strong>汎用</strong></td>
-        <td>
-          <span class="tag-badge tag-blue">書き出し</span>
-          <span class="tag-badge tag-green">理由・根拠</span>
-          <span class="tag-badge tag-yellow">具体的な例</span>
-          <span class="tag-badge tag-purple">調べて分かったこと</span>
-          <span class="tag-badge tag-red">考えたこと・意見</span>
-          <span class="tag-badge tag-gray">まとめ・結論</span>
-        </td>
-        <td>教科・ジャンルを問わず使える基本セット。意見文・説明文などに。</td>
-      </tr>
+      <tr><th>列</th><th>内容</th></tr>
+      <tr><td>名前／最終保存</td><td>だれが、いつ保存したか</td></tr>
+      <tr><td>作品名</td><td>その作品の題名（作品ごとに1行）</td></tr>
+      <tr><td>ステージ</td><td>今どのステージにいるか（たね〜はな）</td></tr>
+      <tr><td>型／問い</td><td>選んだ型と、書いた問い</td></tr>
+      <tr><td>カード</td><td>カードの枚数と、振り分け済みの数</td></tr>
+      <tr><td>文章（冒頭）／チェック</td><td>書いた文章の冒頭と、済んだチェックの数</td></tr>
     </table>
 
     <div class="box box-tip">
-      <div class="box-title">授業での使い方ヒント</div>
-      タグセットは途中で切り替えても、すでに付けたタグや色はそのまま残ります。最初に「マンダラ系」で思考を整理し、途中で「問い→調査型」に切り替えて段落を再構成する、といった使い方もできます。
+      <div class="box-title">机間指導の前に30秒でクラスを見渡す</div>
+      「だれがどのステージで止まっているか」「問いや中心が定まっているか」が一覧できます。過去の保存分をまとめて反映したいときは、Apps Scriptエディタから <code>rebuildSummary</code> を一度実行してください。
     </div>
   </div>
 
-  <!-- 6. 活用シーン -->
+  <!-- 7. 活用シーン -->
   <div class="section" id="scenes">
-    <div class="section-header">
-      <div class="section-num">6</div>
-      <h2>授業活用シーン例</h2>
-    </div>
+    <div class="section-header"><div class="section-num">7</div><h2>授業活用シーン例</h2></div>
 
-    <h3>場面A｜総合的な学習の追究発表（中間報告文）</h3>
+    <h3>場面A｜総合「わたしの夏」（生活作文・エッセイ）</h3>
     <table>
-      <tr><th>項目</th><th>内容</th></tr>
-      <tr><td>メモ形式</td><td>マンダラメモ形式</td></tr>
-      <tr><td>タグセット</td><td>マンダラ系 → 問い→調査型 に切り替え</td></tr>
-      <tr><td>流れ</td><td>マンダラノートの内容を貼り付け → カード化 → タグで段落分け → つなぎ言葉を入れる → 文章を直す → コピーして清書</td></tr>
+      <tr><td style="width:120px;">カテゴリー</td><td>🌻 見たこと・したこと・感じたことを伝える</td></tr>
+      <tr><td>型</td><td>場面や出来事から書く</td></tr>
+      <tr><td>流れ</td><td>マンダラノートで「わたしの夏」を広げる → 貼り付けてカード化 → 相手・中心を決める → 場面／くわしい様子／感じたこと に振り分け → 順序を考える → 自分の言葉で短作文 → 読み直し</td></tr>
     </table>
 
-    <h3>場面B｜理科の観察レポート</h3>
+    <h3>場面B｜理科の観察・実験レポート</h3>
     <table>
-      <tr><th>項目</th><th>内容</th></tr>
-      <tr><td>メモ形式</td><td>箇条書き（観察カードの内容を箇条書きで入力）</td></tr>
-      <tr><td>タグセット</td><td>問い→調査型</td></tr>
-      <tr><td>流れ</td><td>観察で気づいたことを箇条書きで入力 → カード化 → 「問い」「調べ方」「分かったこと」「考察」に振り分け → 文章を直す → まとめてコピー</td></tr>
+      <tr><td style="width:120px;">カテゴリー</td><td>🔎 調べて分かったことを伝える</td></tr>
+      <tr><td>型</td><td>観察・実験を報告する</td></tr>
+      <tr><td>流れ</td><td>観察メモを箇条書きで入力 → カード化 → 問い・予想／方法／結果／考察 に振り分け → 事実と考えを分けて執筆 → チェックで推敲</td></tr>
     </table>
 
-    <h3>場面C｜国語の意見文作成</h3>
+    <h3>場面C｜国語の意見文・提案文</h3>
     <table>
-      <tr><th>項目</th><th>内容</th></tr>
-      <tr><td>メモ形式</td><td>箇条書き（付箋に書いた意見をまとめて入力）</td></tr>
-      <tr><td>タグセット</td><td>汎用</td></tr>
-      <tr><td>流れ</td><td>書き出し・理由・具体例・まとめに分類 → 順番を入れ替えて構成を決める → 文章を直す → コピーして清書</td></tr>
+      <tr><td style="width:120px;">カテゴリー</td><td>💬 自分の考えを理由といっしょに伝える</td></tr>
+      <tr><td>型</td><td>自分の意見を伝える／よりよくする方法を提案する</td></tr>
+      <tr><td>流れ</td><td>付箋の意見を入力 → カード化 → 主張／理由／反対意見／まとめ に振り分け → まとまりの順序を検討 → 執筆・推敲</td></tr>
     </table>
 
-    <h3>場面D｜下書きの段落組み替え</h3>
+    <h3>場面D｜総合・国語の紹介文／すいせん文</h3>
     <table>
-      <tr><th>項目</th><th>内容</th></tr>
-      <tr><td>メモ形式</td><td>段落（空行区切り）</td></tr>
-      <tr><td>タグセット</td><td>段落番号型</td></tr>
-      <tr><td>流れ</td><td>書いた下書きをそのまま貼り付け → 段落ごとにカード化 → 「初め・中・終わり」のタグで整理 → 順番を組み替えて再構成 → 文章を直す → コピーして清書</td></tr>
+      <tr><td style="width:120px;">カテゴリー</td><td>⭐ ものやことのよさを伝える</td></tr>
+      <tr><td>型</td><td>ものやことを紹介・すいせんする</td></tr>
+      <tr><td>流れ</td><td>おすすめしたいもののよさを箇条書き → カード化 → 紹介／よさ／例／おすすめ に振り分け → 相手に合うよさを選んで執筆</td></tr>
     </table>
   </div>
 
-  <!-- 7. FAQ -->
+  <!-- 8. FAQ -->
   <div class="section" id="faq">
-    <div class="section-header">
-      <div class="section-num">7</div>
-      <h2>よくある質問・トラブル対応</h2>
-    </div>
+    <div class="section-header"><div class="section-num">8</div><h2>よくある質問・トラブル対応</h2></div>
 
     <h3>Q. カードに分けると内容がおかしくなる</h3>
-    <p><strong>A.</strong> 入力形式の選択がメモの書き方と合っていない可能性があります。マンダラメモ形式のときは番号（1. 2. …）が必要です。箇条書きのときは「・」や「-」で始まる行が必要です。</p>
+    <p><strong>A.</strong> 入力形式の選択がメモの書き方と合っていない可能性があります。「マンダラメモ」は番号（1. 2. …）が、「箇条書き」は「・」で始まる行が必要です。「自分で書く」は、そのまま1行＝1カードになります。</p>
 
-    <h3>Q. タグを変えても色が変わらない</h3>
-    <p><strong>A.</strong> プルダウンから別のタグを選ぶと色が変わります。「その他（自分で書く）」を選んだ場合は、テキストを入力してEnterキーを押したあと色が確定します。</p>
+    <h3>Q. 前の作品のデータが残ったまま、新しい作品が書けない</h3>
+    <p><strong>A.</strong> 保存バーの「🆕 新しい作品を始める」を使ってください。今の作品は「作品えらび」に残したまま、白紙で次の作品を始められます。</p>
 
-    <h3>Q. 「文章のみでまとめる」で文章が1つにつながってしまう</h3>
-    <p><strong>A.</strong> タグを付けていないカードは独立した段落として扱われますが、同じタグのカードは同じ段落としてつながります。意図的に段落を分けたいときは、カードに異なるタグを付けてください。</p>
+    <h3>Q. 設定タブで「起承転結」を選んでも反映されない</h3>
+    <p><strong>A.</strong> 「起承転結」は現行版で廃止されています（本文セクション5の注意を参照）。選ばないでください。紹介・すいせん文は、児童がアプリ内でカテゴリー⭐を選べば使えます。</p>
 
-    <h3>Q. 入力したメモが消えてしまった</h3>
-    <p><strong>A.</strong> ブラウザの更新ボタンを押すとデータはリセットされます。また「全部消す」ボタンでもリセットされます。保存機能はないため、こまめにコピーするよう事前に指示してください。</p>
+    <h3>Q. 児童が書いた文章が消えた</h3>
+    <p><strong>A.</strong> 自動保存（入力停止20秒・ステージ移動時）が働くため、通常は残ります。もし不安なときは「保存する」を押し、画面下の保存確認メッセージを確かめてください。ログインし直すと、最後に保存した続きが開きます。</p>
 
-    <h3>Q. スマートフォン・タブレットで使えるか</h3>
-    <p><strong>A.</strong> タブレットに対応しています。ドラッグ操作が難しい場合は▲▼ボタンで並べ替えができます。スマートフォンは画面が小さいため操作しにくい場合があります。</p>
+    <h3>Q. タブレットで並べ替えがしにくい</h3>
+    <p><strong>A.</strong> ドラッグのほか「前へ／後ろへ」ボタンでも並べ替えられます。まとまりの順序・カードの移動とも、ボタン操作に対応しています。</p>
 
-    <h3>Q. 複数人で同時に使えるか</h3>
-    <p><strong>A.</strong> URLにアクセスすれば何人でも同時に使えます。ただし各自のブラウザで独立して動作するため、データは共有されません。クラス全員がそれぞれの端末で使う形になります。</p>
-
-    <h3>Q. 授業後にアプリを修正したい</h3>
-    <p><strong>A.</strong> GitHubリポジトリ（<a href="https://github.com/kumaken-1/report-kobo" target="_blank">kumaken-1/report-kobo</a>）の index.html をブラウザ上で直接編集し、コミットすると数分で自動反映されます。URLは変わりません。</p>
+    <h3>Q. 見取りタブに過去の児童のデータが出ていない</h3>
+    <p><strong>A.</strong> 見取りは保存のたびに更新されます。過去の保存分をまとめて反映するには、Apps Scriptエディタで <code>rebuildSummary</code> を一度実行してください。</p>
 
     <div class="box box-info">
       <div class="box-title">その他のご相談</div>
-      操作方法・タグのカスタマイズ・新しい追究タイプへの対応など、アプリの改善についてはアプリ制作者にご相談ください。タグセットの追加や入力形式の追加も対応できます。
+      設定タブの型リストの更新、新しいカテゴリー・型の追加、まとまり構成の調整などは、アプリ制作者にご相談ください。
     </div>
   </div>
+
+  <div style="text-align:center; color:var(--sub); font-size:12px; padding-top:8px;">レポートくん 教師用マニュアル（v2.2.1対応）</div>
 
 </div>
 </body>
