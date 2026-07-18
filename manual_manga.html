@@ -3,329 +3,270 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>レポート工房 マンガでわかる使い方</title>
+  <title>レポートくん マンガでわかる使い方</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
+    :root {
+      --green: #4a9d4e;
+      --green-dark: #35803a;
+      --green-pale: #e8f5e9;
+      --amber-pale: #fdf3d7;
+      --ink: #2f3e2a;
+      --sub: #5f7355;
+      --line: #d5e5cd;
+    }
+
     body {
-      font-family: "Hiragino Kaku Gothic ProN", "Meiryo", sans-serif;
-      background: #1a1a2e;
-      color: #f0f0f0;
-      min-height: 100vh;
+      font-family: "Hiragino Maru Gothic ProN", "BIZ UDGothic", "Yu Gothic", "Meiryo", sans-serif;
+      background: #f4f9f1;
+      color: var(--ink);
+      line-height: 1.8;
     }
 
     /* ヘッダー */
     .header {
-      background: linear-gradient(135deg, #1a3a5c, #3c78d8);
-      padding: 28px 24px 24px;
+      background: linear-gradient(135deg, #2f6b33, #4a9d4e 60%, #6bbf5a);
+      padding: 28px 20px 24px;
       text-align: center;
+      color: #fff;
     }
-
     .header-back {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      color: rgba(255,255,255,0.75);
+      display: inline-block;
+      color: rgba(255,255,255,0.85);
       font-size: 13px;
       text-decoration: none;
-      margin-bottom: 16px;
-      padding: 6px 14px;
-      border: 1px solid rgba(255,255,255,0.3);
+      margin-bottom: 14px;
+      padding: 5px 14px;
+      border: 1px solid rgba(255,255,255,0.4);
       border-radius: 999px;
-      transition: background 0.15s;
     }
-    .header-back:hover { background: rgba(255,255,255,0.1); }
+    .header-back:hover { background: rgba(255,255,255,0.15); }
+    .header h1 { font-size: 26px; font-weight: 900; margin-bottom: 6px; }
+    .header p { font-size: 13px; opacity: 0.9; }
 
-    .header h1 {
-      font-size: 26px;
-      font-weight: bold;
-      color: #fff;
-      margin-bottom: 6px;
+    .wrap { max-width: 760px; margin: 0 auto; padding: 24px 16px 70px; }
+
+    /* コマ（シーン） */
+    .scene { margin-bottom: 34px; }
+    .scene-label {
+      display: flex; align-items: center; gap: 10px; margin-bottom: 10px;
     }
-
-    .header p {
-      font-size: 14px;
-      color: rgba(255,255,255,0.8);
+    .scene-num {
+      background: var(--green); color: #fff;
+      width: 30px; height: 30px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; font-weight: bold; flex-shrink: 0;
     }
+    .scene-title { font-size: 15px; font-weight: bold; color: var(--green-dark); }
 
-    /* ページカウンター */
-    .page-count {
-      text-align: center;
-      font-size: 12px;
-      color: rgba(255,255,255,0.5);
-      padding: 12px;
-      letter-spacing: 1px;
-    }
-
-    /* メインコンテンツ */
-    .manga-wrap {
-      max-width: 840px;
-      margin: 0 auto;
-      padding: 0 16px 60px;
+    .panel {
+      background: #fff;
+      border: 3px solid var(--ink);
+      border-radius: 14px;
+      padding: 18px 18px 14px;
+      box-shadow: 4px 4px 0 rgba(47,62,42,0.15);
     }
 
-    /* 各ページ */
-    .manga-page {
-      margin-bottom: 40px;
+    /* 会話の行 */
+    .talk { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 12px; }
+    .talk.right { flex-direction: row-reverse; }
+    .face {
+      font-size: 34px; flex-shrink: 0; line-height: 1;
+      background: var(--green-pale); border-radius: 50%;
+      width: 52px; height: 52px;
+      display: flex; align-items: center; justify-content: center;
+      border: 2px solid var(--line);
     }
-
-    .page-label {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 10px 0 8px;
+    .bubble {
+      position: relative;
+      background: #fff;
+      border: 2px solid var(--ink);
+      border-radius: 14px;
+      padding: 9px 14px;
+      font-size: 14.5px;
+      max-width: 78%;
     }
-
-    .page-num {
-      background: #3c78d8;
-      color: #fff;
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 13px;
-      font-weight: bold;
-      flex-shrink: 0;
+    .talk .bubble::before {
+      content: "";
+      position: absolute; top: 16px; left: -9px;
+      border: 8px solid transparent; border-right-color: var(--ink); border-left: 0;
     }
-
-    .page-title {
-      font-size: 14px;
-      color: rgba(255,255,255,0.65);
-      line-height: 1.4;
+    .talk.right .bubble::before {
+      left: auto; right: -9px;
+      border: 8px solid transparent; border-left-color: var(--ink); border-right: 0;
     }
+    .bubble.think { border-style: dashed; color: var(--sub); }
+    .bubble strong { color: var(--green-dark); }
 
-    .manga-img {
-      width: 100%;
+    /* 画面の再現ミニUI */
+    .ui {
+      background: var(--green-pale);
+      border: 2px dashed var(--green);
       border-radius: 10px;
-      display: block;
-      box-shadow: 0 4px 24px rgba(0,0,0,0.5);
-    }
-
-    /* ナビゲーション */
-    .nav-bar {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: rgba(20,20,40,0.95);
-      backdrop-filter: blur(8px);
-      border-top: 1px solid rgba(255,255,255,0.1);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 10px 20px;
-      gap: 12px;
-    }
-
-    .nav-btn {
-      background: #3c78d8;
-      color: #fff;
-      border: none;
-      border-radius: 999px;
-      padding: 8px 20px;
-      font-size: 14px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: background 0.15s;
-    }
-    .nav-btn:hover { background: #2a5fbb; }
-    .nav-btn:disabled { background: rgba(255,255,255,0.15); color: rgba(255,255,255,0.4); cursor: default; }
-
-    .nav-progress {
-      flex: 1;
-      text-align: center;
+      padding: 10px 14px;
       font-size: 13px;
-      color: rgba(255,255,255,0.6);
+      margin: 8px 0 12px;
+    }
+    .ui-title { font-weight: bold; color: var(--green-dark); font-size: 12px; margin-bottom: 4px; }
+    .chipd {
+      display: inline-block; background: #fff; border: 1.5px solid var(--line);
+      border-radius: 999px; padding: 2px 12px; font-size: 12.5px; margin: 2px 3px 2px 0;
+    }
+    .btnd {
+      display: inline-block; background: var(--green); color: #fff; font-weight: bold;
+      border-radius: 999px; padding: 3px 14px; font-size: 12.5px; margin: 2px 2px;
     }
 
-    /* スクロールモード用スタイル */
-    .view-toggle {
-      display: flex;
-      justify-content: center;
-      gap: 8px;
-      padding: 16px 0 4px;
-    }
-    .view-btn {
-      background: rgba(255,255,255,0.1);
-      color: rgba(255,255,255,0.7);
-      border: 1px solid rgba(255,255,255,0.2);
-      border-radius: 999px;
-      padding: 6px 16px;
+    /* ナレーション */
+    .naration {
+      background: var(--amber-pale);
+      border-radius: 8px;
+      padding: 8px 14px;
       font-size: 13px;
-      cursor: pointer;
-      transition: background 0.15s;
-    }
-    .view-btn.active {
-      background: #3c78d8;
-      color: #fff;
-      border-color: #3c78d8;
+      color: #6d5411;
+      margin-top: 4px;
     }
 
-    /* ページめくりモード */
-    body.pager-mode .manga-page { display: none; }
-    body.pager-mode .manga-page.current { display: block; }
-    body.pager-mode .nav-bar { display: flex; }
+    .footer { text-align: center; padding: 10px 16px 50px; font-size: 13px; color: var(--sub); }
+    .footer a { color: var(--green-dark); }
 
-    /* スクロールモード */
-    body.scroll-mode .manga-page { display: block; }
-    body.scroll-mode .nav-bar { display: none; }
-
-    /* フッター */
-    .footer {
-      text-align: center;
-      padding: 32px 16px 80px;
-      font-size: 13px;
-      color: rgba(255,255,255,0.4);
+    @media print {
+      .header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .scene { break-inside: avoid; }
     }
-    .footer a {
-      color: #6fa8dc;
-      text-decoration: none;
-    }
-    .footer a:hover { text-decoration: underline; }
   </style>
 </head>
-<body class="scroll-mode">
+<body>
 
   <div class="header">
-    <a href="manual_teacher.html" class="header-back">← 教師用マニュアルに戻る</a>
-    <h1>📖 マンガでわかる<br>レポート工房の使い方</h1>
-    <p>全8ページ ― スクロールまたはページめくりで読めます</p>
+    <a href="manual_teacher.html" class="header-back">← 教師用マニュアルにもどる</a>
+    <h1>📖 マンガでわかる<br>レポートくんの使い方</h1>
+    <p>授業のさいしょの説明や、スライドの代わりにどうぞ（全8場面）</p>
   </div>
 
-  <div class="view-toggle">
-    <button class="view-btn" id="btnScroll" onclick="setMode('scroll')">📜 スクロールで読む</button>
-    <button class="view-btn active" id="btnPager" onclick="setMode('pager')">📖 ページめくりで読む</button>
-  </div>
+  <div class="wrap">
 
-  <div class="page-count" id="pageCount"></div>
-
-  <div class="manga-wrap">
-
-    <div class="manga-page current" id="page1">
-      <div class="page-label">
-        <div class="page-num">1</div>
-        <div class="page-title">レポート工房とは？　子どもが作文で詰まる本当の理由</div>
+    <!-- 1 -->
+    <div class="scene">
+      <div class="scene-label"><div class="scene-num">1</div><div class="scene-title">書くことはあるのに、文章にならない…</div></div>
+      <div class="panel">
+        <div class="talk"><div class="face">🧒</div><div class="bubble">メモはいっぱい書いたのに…どこから書けばいいか、わかんない！</div></div>
+        <div class="talk"><div class="face">🧒</div><div class="bubble think">ぜんぶ書いたら、なんだかバラバラの文になっちゃった…</div></div>
+        <div class="talk right"><div class="face">🍎</div><div class="bubble">その悩み、<strong>「レポートくん」</strong>が助けてくれるよ。メモを<strong>材料カード</strong>にして、組み立ててから書くアプリなんだ。</div></div>
+        <div class="naration">レポートくんは文章を作ってくれるアプリではありません。<strong>書くのは自分</strong>。アプリは「何を・どの順番で・どう書くか」を考える手伝いをします。</div>
       </div>
-      <img src="img/kobo1.jpg" alt="マンガ1ページ目：レポート工房の紹介と問題提起" class="manga-img" loading="lazy">
     </div>
 
-    <div class="manga-page" id="page2">
-      <div class="page-label">
-        <div class="page-num">2</div>
-        <div class="page-title">アプリの紹介　― 書く前の思考整理を助けるツール</div>
+    <!-- 2 -->
+    <div class="scene">
+      <div class="scene-label"><div class="scene-num">2</div><div class="scene-title">ログインしよう</div></div>
+      <div class="panel">
+        <div class="ui">
+          <div class="ui-title">ログイン画面</div>
+          <span class="chipd">がくねん：5年</span><span class="chipd">くみ：1</span><span class="chipd">ばんごう：12</span><span class="chipd">パスワード：●●●●</span>
+          <span class="btnd">ログイン →</span>
+        </div>
+        <div class="talk right"><div class="face">🍎</div><div class="bubble">数字とパスワードは<strong>半角</strong>でね。全角になると文字が<span style="color:#d9534f;">赤く</span>なって教えてくれるよ。</div></div>
+        <div class="talk"><div class="face">🧒</div><div class="bubble">前に作ったつづきが、そのまま出てきた！</div></div>
+        <div class="naration">作業は自動でほぞんされます。次にログインすると、最後のつづきから始められます。</div>
       </div>
-      <img src="img/kobo2.jpg" alt="マンガ2ページ目：先生がアプリを紹介する場面" class="manga-img" loading="lazy">
     </div>
 
-    <div class="manga-page" id="page3">
-      <div class="page-label">
-        <div class="page-num">3</div>
-        <div class="page-title">Step 1　― メモの形式を選んでカードに分ける</div>
+    <!-- 3 -->
+    <div class="scene">
+      <div class="scene-label"><div class="scene-num">3</div><div class="scene-title">🌰 たね ― メモを材料カードにする</div></div>
+      <div class="panel">
+        <div class="talk right"><div class="face">🍎</div><div class="bubble">マンダラノートのメモを<strong>はりつける</strong>か、<strong>自分で書く</strong>かをえらんで、「カードにする」をおしてごらん。</div></div>
+        <div class="ui">
+          <div class="ui-title">できた材料カード</div>
+          <span class="chipd">水に入ったしゅんかん、足がつめたかった</span>
+          <span class="chipd">セミの声がうるさかった</span>
+          <span class="chipd">遠くで花火の音だけが聞こえた</span>
+        </div>
+        <div class="talk"><div class="face">🧒</div><div class="bubble">メモが、カードにばらばらになった！</div></div>
+        <div class="naration">カードは文章の「材料」。このあと、えらんだり、ならべたりして使います。</div>
       </div>
-      <img src="img/kobo3.jpg" alt="マンガ3ページ目：メモ形式の選び方とカード化" class="manga-img" loading="lazy">
     </div>
 
-    <div class="manga-page" id="page4">
-      <div class="page-label">
-        <div class="page-num">4</div>
-        <div class="page-title">Step 1（実践）　― メモを貼り付けてカードに変える</div>
+    <!-- 4 -->
+    <div class="scene">
+      <div class="scene-label"><div class="scene-num">4</div><div class="scene-title">🌱 め ― 何を・だれに・どう伝える？</div></div>
+      <div class="panel">
+        <div class="talk right"><div class="face">🍎</div><div class="bubble">まず「どんな文章を書くか」を4つの中からえらぼう。</div></div>
+        <div class="ui">
+          <span class="chipd">🌻 見たこと・したこと・感じたことを伝える</span>
+          <span class="chipd">🔎 調べて分かったことを伝える</span>
+          <span class="chipd">⭐ ものやことのよさを伝える</span>
+          <span class="chipd">💬 自分の考えを理由といっしょに伝える</span>
+        </div>
+        <div class="talk right"><div class="face">🍎</div><div class="bubble">そして、<strong>何について・だれに読んでもらう・読んだ人にどうなってほしい・一番伝えたいこと</strong>の4つを短く書くんだ。</div></div>
+        <div class="talk"><div class="face">🧒</div><div class="bubble">「今の考えでOK。あとで直せるよ」って書いてある。気が楽だな〜。</div></div>
+        <div class="naration">ここで決めたことは「🧭 書くときのものさし」として、この先ずっと画面に表示されます。まよったら、ものさしにもどりましょう。</div>
       </div>
-      <img src="img/kobo4.jpg" alt="マンガ4ページ目：実際にメモを貼り付けてカード化する操作" class="manga-img" loading="lazy">
     </div>
 
-    <div class="manga-page" id="page5">
-      <div class="page-label">
-        <div class="page-num">5</div>
-        <div class="page-title">Step 2　― カードを並べ替え・追加・削除・編集する</div>
+    <!-- 5 -->
+    <div class="scene">
+      <div class="scene-label"><div class="scene-num">5</div><div class="scene-title">🌿 くき ― カードをまとまりに分けて、順番を考える</div></div>
+      <div class="panel">
+        <div class="talk right"><div class="face">🍎</div><div class="bubble">文章の<strong>型</strong>をえらんだら、カードを<strong>まとまり（段落）</strong>に分けよう。使わないカードは「つかわない」でOK。</div></div>
+        <div class="ui">
+          <div class="ui-title">例：調べたことを報告する</div>
+          <span class="chipd">はじめ</span> → <span class="chipd">なか1</span> → <span class="chipd">なか2</span> → <span class="chipd">なか3</span> → <span class="chipd">おわり</span>
+        </div>
+        <div class="talk"><div class="face">🧒</div><div class="bubble">ぜんぶ分けたら、「まとまりの順番を考えよう」って出てきた！</div></div>
+        <div class="talk right"><div class="face">🍎</div><div class="bubble">読む人に伝わる順番を自分で決められるんだ。決めたら「どうしてこの順番にしたか」もえらんでおこう。</div></div>
+        <div class="naration">「なか2」「なか3」は、書くことがあるときだけ使えばだいじょうぶ。</div>
       </div>
-      <img src="img/kobo5.jpg" alt="マンガ5ページ目：カードの並べ替え・追加・削除・テキスト編集" class="manga-img" loading="lazy">
     </div>
 
-    <div class="manga-page" id="page6">
-      <div class="page-label">
-        <div class="page-num">6</div>
-        <div class="page-title">Step 2　― タグで段落を整理する・色分けの意味</div>
+    <!-- 6 -->
+    <div class="scene">
+      <div class="scene-label"><div class="scene-num">6</div><div class="scene-title">🍃 は ― カードを材料に、自分のことばで書く</div></div>
+      <div class="panel">
+        <div class="talk"><div class="face">🧒</div><div class="bubble">カードをおしたら、文章のらんに入った！このままでいいの？</div></div>
+        <div class="talk right"><div class="face">🍎</div><div class="bubble">そのままじゃ「メモ」のままだよ。<strong>読む人に伝わる文</strong>に書きかえよう。こまったら<strong>「文の型」</strong>を使ってみて。</div></div>
+        <div class="ui">
+          <div class="ui-title">文の型（タップで入る）</div>
+          <span class="chipd">調べてみると、〜ということが分かった。</span>
+          <span class="chipd">たとえば、〜。</span>
+        </div>
+        <div class="naration">「〜」のところに、自分のことばを入れます。カードの文をつないで、語尾やつなぎことばを直すのは自分の仕事です。</div>
       </div>
-      <img src="img/kobo6.jpg" alt="マンガ6ページ目：タグの付け方と色分けによる段落整理" class="manga-img" loading="lazy">
     </div>
 
-    <div class="manga-page" id="page7">
-      <div class="page-label">
-        <div class="page-num">7</div>
-        <div class="page-title">Step 3・4　― つなぎ言葉の挿入とまとめてコピー</div>
+    <!-- 7 -->
+    <div class="scene">
+      <div class="scene-label"><div class="scene-num">7</div><div class="scene-title">🌸 はな ― 読み直して、レポートを作る</div></div>
+      <div class="panel">
+        <div class="talk right"><div class="face">🍎</div><div class="bubble">チェックのしるしを見ながら、声に出して読み直そう。直したくなったら前のステージにもどれるよ。</div></div>
+        <div class="ui">
+          <div class="ui-title">チェックの例</div>
+          <span class="chipd">✅ 一番伝えたいことが、文章から分かる</span>
+          <span class="chipd">✅ 声に出して読んで、つっかえるところを直した</span>
+        </div>
+        <div class="talk"><div class="face">🧒</div><div class="bubble">「レポートを作る」をおしたら、完成した文章が出てきた！コピーして清書するんだね。</div></div>
       </div>
-      <img src="img/kobo7.jpg" alt="マンガ7ページ目：つなぎ言葉の使い方とまとめてコピーする操作" class="manga-img" loading="lazy">
     </div>
 
-    <div class="manga-page" id="page8">
-      <div class="page-label">
-        <div class="page-num">8</div>
-        <div class="page-title">授業活用シーン・注意事項・まとめ</div>
+    <!-- 8 -->
+    <div class="scene">
+      <div class="scene-label"><div class="scene-num">8</div><div class="scene-title">おぼえておくと便利なこと</div></div>
+      <div class="panel">
+        <div class="talk right"><div class="face">🍎</div><div class="bubble"><strong>自動ほぞん</strong>があるから、とちゅうで終わってもだいじょうぶ。次のログインでつづきからだよ。</div></div>
+        <div class="talk right"><div class="face">🍎</div><div class="bubble">新しい作文を書くときは<strong>「🆕 新しい作品を始める」</strong>。前の作品は「作品えらび」にのこるから、いつでも読み返せる。</div></div>
+        <div class="talk"><div class="face">🧒</div><div class="bubble">よーし、ぼくの夏のこと、書いてみよう！</div></div>
+        <div class="naration">こまったときは、先生にきくか、教師用マニュアルを見てください。</div>
       </div>
-      <img src="img/kobo8.jpg" alt="マンガ8ページ目：授業での活用場面と注意事項" class="manga-img" loading="lazy">
     </div>
 
   </div>
 
   <div class="footer">
-    <p><a href="manual_teacher.html">← 教師用マニュアルに戻る</a></p>
-    <p style="margin-top:8px;">レポート工房 ― 授業支援ウェブアプリ</p>
+    <p><a href="manual_teacher.html">← 教師用マニュアルにもどる</a></p>
+    <p style="margin-top:6px;">レポートくん ― 作文支援ウェブアプリ（v2.4対応）</p>
   </div>
 
-  <!-- ページめくりナビ（ページャーモード時のみ表示） -->
-  <div class="nav-bar" style="display:none;" id="navBar">
-    <button class="nav-btn" id="btnPrev" onclick="changePage(-1)" disabled>◀ 前へ</button>
-    <div class="nav-progress" id="navProgress">1 / 8</div>
-    <button class="nav-btn" id="btnNext" onclick="changePage(1)">次へ ▶</button>
-  </div>
-
-  <script>
-    const TOTAL = 8;
-    let currentPage = 1;
-    let mode = 'scroll';
-
-    function setMode(m) {
-      mode = m;
-      document.body.className = m + '-mode';
-      document.getElementById('btnScroll').classList.toggle('active', m === 'scroll');
-      document.getElementById('btnPager').classList.toggle('active', m === 'pager');
-      document.getElementById('navBar').style.display = m === 'pager' ? 'flex' : 'none';
-      document.getElementById('pageCount').textContent = m === 'pager' ? '' : '↓ 下にスクロールして読み進めよう';
-
-      if (m === 'pager') {
-        showPage(currentPage);
-        window.scrollTo({ top: 0 });
-      }
-    }
-
-    function showPage(n) {
-      document.querySelectorAll('.manga-page').forEach((el, i) => {
-        el.classList.toggle('current', i + 1 === n);
-      });
-      document.getElementById('navProgress').textContent = n + ' / ' + TOTAL;
-      document.getElementById('btnPrev').disabled = n <= 1;
-      document.getElementById('btnNext').disabled = n >= TOTAL;
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    function changePage(delta) {
-      const next = currentPage + delta;
-      if (next < 1 || next > TOTAL) return;
-      currentPage = next;
-      showPage(currentPage);
-    }
-
-    // キーボード操作
-    document.addEventListener('keydown', e => {
-      if (mode !== 'pager') return;
-      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') changePage(1);
-      if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   changePage(-1);
-    });
-
-    // 初期表示はスクロールモード
-    setMode('scroll');
-  </script>
 </body>
 </html>

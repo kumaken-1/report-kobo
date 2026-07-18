@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>レポート工房 マンガでわかる使い方</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "Hiragino Kaku Gothic ProN", "Meiryo", sans-serif;
+      background: #1a1a2e;
+      color: #f0f0f0;
+      min-height: 100vh;
+    }
+
+    /* ヘッダー */
+    .header {
+      background: linear-gradient(135deg, #1a3a5c, #3c78d8);
+      padding: 28px 24px 24px;
+      text-align: center;
+    }
+
+    .header-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: rgba(255,255,255,0.75);
+      font-size: 13px;
+      text-decoration: none;
+      margin-bottom: 16px;
+      padding: 6px 14px;
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 999px;
+      transition: background 0.15s;
+    }
+    .header-back:hover { background: rgba(255,255,255,0.1); }
+
+    .header h1 {
+      font-size: 26px;
+      font-weight: bold;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+
+    .header p {
+      font-size: 14px;
+      color: rgba(255,255,255,0.8);
+    }
+
+    /* ページカウンター */
+    .page-count {
+      text-align: center;
+      font-size: 12px;
+      color: rgba(255,255,255,0.5);
+      padding: 12px;
+      letter-spacing: 1px;
+    }
+
+    /* メインコンテンツ */
+    .manga-wrap {
+      max-width: 840px;
+      margin: 0 auto;
+      padding: 0 16px 60px;
+    }
+
+    /* 各ページ */
+    .manga-page {
+      margin-bottom: 40px;
+    }
+
+    .page-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 0 8px;
+    }
+
+    .page-num {
+      background: #3c78d8;
+      color: #fff;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: bold;
+      flex-shrink: 0;
+    }
+
+    .page-title {
+      font-size: 14px;
+      color: rgba(255,255,255,0.65);
+      line-height: 1.4;
+    }
+
+    .manga-img {
+      width: 100%;
+      border-radius: 10px;
+      display: block;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.5);
+    }
+
+    /* ナビゲーション */
+    .nav-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(20,20,40,0.95);
+      backdrop-filter: blur(8px);
+      border-top: 1px solid rgba(255,255,255,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 20px;
+      gap: 12px;
+    }
+
+    .nav-btn {
+      background: #3c78d8;
+      color: #fff;
+      border: none;
+      border-radius: 999px;
+      padding: 8px 20px;
+      font-size: 14px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background 0.15s;
+    }
+    .nav-btn:hover { background: #2a5fbb; }
+    .nav-btn:disabled { background: rgba(255,255,255,0.15); color: rgba(255,255,255,0.4); cursor: default; }
+
+    .nav-progress {
+      flex: 1;
+      text-align: center;
+      font-size: 13px;
+      color: rgba(255,255,255,0.6);
+    }
+
+    /* スクロールモード用スタイル */
+    .view-toggle {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      padding: 16px 0 4px;
+    }
+    .view-btn {
+      background: rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.7);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 999px;
+      padding: 6px 16px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .view-btn.active {
+      background: #3c78d8;
+      color: #fff;
+      border-color: #3c78d8;
+    }
+
+    /* ページめくりモード */
+    body.pager-mode .manga-page { display: none; }
+    body.pager-mode .manga-page.current { display: block; }
+    body.pager-mode .nav-bar { display: flex; }
+
+    /* スクロールモード */
+    body.scroll-mode .manga-page { display: block; }
+    body.scroll-mode .nav-bar { display: none; }
+
+    /* フッター */
+    .footer {
+      text-align: center;
+      padding: 32px 16px 80px;
+      font-size: 13px;
+      color: rgba(255,255,255,0.4);
+    }
+    .footer a {
+      color: #6fa8dc;
+      text-decoration: none;
+    }
+    .footer a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body class="scroll-mode">
+
+  <div class="header">
+    <a href="manual_teacher.html" class="header-back">← 教師用マニュアルに戻る</a>
+    <h1>📖 マンガでわかる<br>レポート工房の使い方</h1>
+    <p>全8ページ ― スクロールまたはページめくりで読めます</p>
+  </div>
+
+  <div class="view-toggle">
+    <button class="view-btn" id="btnScroll" onclick="setMode('scroll')">📜 スクロールで読む</button>
+    <button class="view-btn active" id="btnPager" onclick="setMode('pager')">📖 ページめくりで読む</button>
+  </div>
+
+  <div class="page-count" id="pageCount"></div>
+
+  <div class="manga-wrap">
+
+    <div class="manga-page current" id="page1">
+      <div class="page-label">
+        <div class="page-num">1</div>
+        <div class="page-title">レポート工房とは？　子どもが作文で詰まる本当の理由</div>
+      </div>
+      <img src="img/kobo1.jpg" alt="マンガ1ページ目：レポート工房の紹介と問題提起" class="manga-img" loading="lazy">
+    </div>
+
+    <div class="manga-page" id="page2">
+      <div class="page-label">
+        <div class="page-num">2</div>
+        <div class="page-title">アプリの紹介　― 書く前の思考整理を助けるツール</div>
+      </div>
+      <img src="img/kobo2.jpg" alt="マンガ2ページ目：先生がアプリを紹介する場面" class="manga-img" loading="lazy">
+    </div>
+
+    <div class="manga-page" id="page3">
+      <div class="page-label">
+        <div class="page-num">3</div>
+        <div class="page-title">Step 1　― メモの形式を選んでカードに分ける</div>
+      </div>
+      <img src="img/kobo3.jpg" alt="マンガ3ページ目：メモ形式の選び方とカード化" class="manga-img" loading="lazy">
+    </div>
+
+    <div class="manga-page" id="page4">
+      <div class="page-label">
+        <div class="page-num">4</div>
+        <div class="page-title">Step 1（実践）　― メモを貼り付けてカードに変える</div>
+      </div>
+      <img src="img/kobo4.jpg" alt="マンガ4ページ目：実際にメモを貼り付けてカード化する操作" class="manga-img" loading="lazy">
+    </div>
+
+    <div class="manga-page" id="page5">
+      <div class="page-label">
+        <div class="page-num">5</div>
+        <div class="page-title">Step 2　― カードを並べ替え・追加・削除・編集する</div>
+      </div>
+      <img src="img/kobo5.jpg" alt="マンガ5ページ目：カードの並べ替え・追加・削除・テキスト編集" class="manga-img" loading="lazy">
+    </div>
+
+    <div class="manga-page" id="page6">
+      <div class="page-label">
+        <div class="page-num">6</div>
+        <div class="page-title">Step 2　― タグで段落を整理する・色分けの意味</div>
+      </div>
+      <img src="img/kobo6.jpg" alt="マンガ6ページ目：タグの付け方と色分けによる段落整理" class="manga-img" loading="lazy">
+    </div>
+
+    <div class="manga-page" id="page7">
+      <div class="page-label">
+        <div class="page-num">7</div>
+        <div class="page-title">Step 3・4　― つなぎ言葉の挿入とまとめてコピー</div>
+      </div>
+      <img src="img/kobo7.jpg" alt="マンガ7ページ目：つなぎ言葉の使い方とまとめてコピーする操作" class="manga-img" loading="lazy">
+    </div>
+
+    <div class="manga-page" id="page8">
+      <div class="page-label">
+        <div class="page-num">8</div>
+        <div class="page-title">授業活用シーン・注意事項・まとめ</div>
+      </div>
+      <img src="img/kobo8.jpg" alt="マンガ8ページ目：授業での活用場面と注意事項" class="manga-img" loading="lazy">
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <p><a href="manual_teacher.html">← 教師用マニュアルに戻る</a></p>
+    <p style="margin-top:8px;">レポート工房 ― 授業支援ウェブアプリ</p>
+  </div>
+
+  <!-- ページめくりナビ（ページャーモード時のみ表示） -->
+  <div class="nav-bar" style="display:none;" id="navBar">
+    <button class="nav-btn" id="btnPrev" onclick="changePage(-1)" disabled>◀ 前へ</button>
+    <div class="nav-progress" id="navProgress">1 / 8</div>
+    <button class="nav-btn" id="btnNext" onclick="changePage(1)">次へ ▶</button>
+  </div>
+
+  <script>
+    const TOTAL = 8;
+    let currentPage = 1;
+    let mode = 'scroll';
+
+    function setMode(m) {
+      mode = m;
+      document.body.className = m + '-mode';
+      document.getElementById('btnScroll').classList.toggle('active', m === 'scroll');
+      document.getElementById('btnPager').classList.toggle('active', m === 'pager');
+      document.getElementById('navBar').style.display = m === 'pager' ? 'flex' : 'none';
+      document.getElementById('pageCount').textContent = m === 'pager' ? '' : '↓ 下にスクロールして読み進めよう';
+
+      if (m === 'pager') {
+        showPage(currentPage);
+        window.scrollTo({ top: 0 });
+      }
+    }
+
+    function showPage(n) {
+      document.querySelectorAll('.manga-page').forEach((el, i) => {
+        el.classList.toggle('current', i + 1 === n);
+      });
+      document.getElementById('navProgress').textContent = n + ' / ' + TOTAL;
+      document.getElementById('btnPrev').disabled = n <= 1;
+      document.getElementById('btnNext').disabled = n >= TOTAL;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function changePage(delta) {
+      const next = currentPage + delta;
+      if (next < 1 || next > TOTAL) return;
+      currentPage = next;
+      showPage(currentPage);
+    }
+
+    // キーボード操作
+    document.addEventListener('keydown', e => {
+      if (mode !== 'pager') return;
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') changePage(1);
+      if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   changePage(-1);
+    });
+
+    // 初期表示はスクロールモード
+    setMode('scroll');
+  </script>
+</body>
+</html>
